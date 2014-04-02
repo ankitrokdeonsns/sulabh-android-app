@@ -29,7 +29,7 @@ android {
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 18
+        minSdkVersion 11
         targetSdkVersion 18
         versionCode 2
         versionName "1.0.0-SNAPSHOT"
@@ -56,12 +56,14 @@ androidTest {
     include '**/*Test.class'
     exclude '**/espresso/**/*.class'
 }
-
 dependencies {
     repositories {
         mavenCentral()
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            url uri("${System.getenv("ANDROID_HOME")}/extras/google/m2repository")
         }
     }
     // Espresso
@@ -95,6 +97,8 @@ dependencies {
         exclude module: 'wagon-provider-api'
     }
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
+
+    compile "com.google.android.gms:play-services:4.2.42"
 }
 
 apply plugin: 'idea'

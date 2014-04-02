@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh.espresso.activity;
+package com.thoughtworks.sulabh.espresso;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
