@@ -1,4 +1,4 @@
-package com.example.robolectric;
+package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

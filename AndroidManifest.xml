@@ -7,9 +7,9 @@
     <uses-sdk android:minSdkVersion="18"
               android:targetSdkVersion="18"/>
 
-    <application android:name=".DeckardApplication">
+    <application android:name="com.thoughtworks.sulabh.DeckardApplication">
 
-        <activity android:name=".robolectric.DeckardActivity" android:screenOrientation="portrait">
+        <activity android:name="com.thoughtworks.sulabh.activity.DeckardActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

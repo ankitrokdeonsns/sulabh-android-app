@@ -1,4 +1,4 @@
-package com.example;
+package com.thoughtworks.sulabh;
 
 import android.app.Application;
 

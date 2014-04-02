@@ -1,9 +1,9 @@
-package com.example.espresso.activity;
+package com.thoughtworks.sulabh.espresso.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import com.example.R;
-import com.example.robolectric.DeckardActivity;
+import com.thoughtworks.sulabh.activity.DeckardActivity;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
