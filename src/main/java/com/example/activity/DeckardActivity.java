@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh.activity;
+package com.example.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

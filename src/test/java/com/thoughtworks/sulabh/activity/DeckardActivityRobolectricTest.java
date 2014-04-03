@@ -1,12 +1,12 @@
 package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
+import com.example.activity.DeckardActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)

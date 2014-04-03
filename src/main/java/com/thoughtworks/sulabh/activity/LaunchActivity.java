@@ -27,7 +27,6 @@ public class LaunchActivity extends Activity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
 
-
         GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         String provider = locationManager.getBestProvider(new Criteria(), true);
         Location location= locationManager.getLastKnownLocation(provider);
