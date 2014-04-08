@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+
+    <EditText
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/placeName" android:text="You are here" android:capitalize="sentences"
+            android:background="#000000" android:autoText="false" android:focusable="false"
+            android:visibility="visible" android:textAlignment="center" android:layout_weight="0.09"
+            android:layout_gravity="center_horizontal" android:textSize="30dp" android:textColor="#ffffff"/>
+
+    <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar" android:layout_gravity="center_horizontal" android:layout_weight="0.09"
+            android:numStars="5" android:rating="5" android:indeterminateOnly="false"
+            android:layout_column="11"/>
+
+    <TextView
+            android:layout_width="363dp"
+            android:layout_height="wrap_content"
+            android:text="Operational          Yes"
+            android:id="@+id/isOperational"
+            android:textSize="25dp" android:layout_weight="0.05"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hygienic               Yes"
+            android:id="@+id/isHygienic" android:layout_weight="0.05" android:textSize="25dp"
+            />
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Free/Paid             Free"
+            android:id="@+id/isFree" android:layout_weight="0.05" android:textSize="25dp"
+            android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kind                      Western"
+            android:id="@+id/ofKind" android:layout_weight="0.05" android:textSize="25dp"
+            android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suitable For        Men and Women"
+            android:id="@+id/suitableFor" android:layout_weight="0.05" android:textSize="25dp"
+            />
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0.09">
+    </LinearLayout>
+</LinearLayout>
