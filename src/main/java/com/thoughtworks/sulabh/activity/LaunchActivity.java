@@ -40,6 +40,11 @@ public class LaunchActivity extends Activity {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+                    intent.putExtra("Operational","yes");
+                    intent.putExtra("Hygienic","yes");
+                    intent.putExtra("Free/Paid","free");
+                    intent.putExtra("Kind","Western");
+                    intent.putExtra("Suitable For","Men and Women");
                     startActivity(intent);
                     return true;
                 }

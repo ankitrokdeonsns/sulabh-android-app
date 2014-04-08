@@ -21,39 +21,88 @@
             android:numStars="5" android:rating="5" android:indeterminateOnly="false"
             android:layout_column="11"/>
 
-    <TextView
-            android:layout_width="363dp"
-            android:layout_height="wrap_content"
-            android:text="Operational          Yes"
-            android:id="@+id/isOperational"
-            android:textSize="25dp" android:layout_weight="0.05"/>
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hygienic               Yes"
-            android:id="@+id/isHygienic" android:layout_weight="0.05" android:textSize="25dp"
-            />
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Free/Paid             Free"
-            android:id="@+id/isFree" android:layout_weight="0.05" android:textSize="25dp"
-            android:layout_gravity="center_horizontal"/>
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kind                      Western"
-            android:id="@+id/ofKind" android:layout_weight="0.05" android:textSize="25dp"
-            android:layout_gravity="center_horizontal"/>
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Suitable For        Men and Women"
-            android:id="@+id/suitableFor" android:layout_weight="0.05" android:textSize="25dp"
-            />
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_weight="0.09">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="363dp"
+                android:layout_height="wrap_content"
+                android:text="Operational"
+                android:textSize="25dp" android:layout_weight="0.05" android:layout_margin="5dp"/>
+        <TextView
+                android:layout_width="363dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/isOperational"
+                android:textSize="25dp" android:layout_weight="0.05" android:layout_margin="5dp"/>
+
     </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hygienic"
+                android:layout_weight="0.05" android:textSize="25dp"
+                android:layout_margin="5dp"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/isHygienic" android:layout_weight="0.05" android:textSize="25dp"
+                android:layout_margin="5dp"/>
+     </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Free/Paid"
+             android:layout_weight="0.05" android:textSize="25dp"
+            android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/isFree" android:layout_weight="0.05" android:textSize="25dp"
+                android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kind"
+            android:layout_weight="0.05" android:textSize="25dp"
+            android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ofKind" android:layout_weight="0.05" android:textSize="25dp"
+                android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suitable For"
+             android:layout_weight="0.05" android:textSize="25dp"
+             android:layout_margin="5dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/suitableFor" android:layout_weight="0.05" android:textSize="25dp"
+                android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
 </LinearLayout>
