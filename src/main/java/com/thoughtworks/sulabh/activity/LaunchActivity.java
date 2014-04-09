@@ -15,29 +15,41 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import org.json.JSONObject;
 
 public class LaunchActivity extends Activity {
 
     private LocationManager locationManager;
+    String url = "http://10.12.124.216:3000/locations";
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         String provider = locationManager.getBestProvider(new Criteria(), true);
-        Location location= locationManager.getLastKnownLocation(provider);
-        if(map!=null) {
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (map != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             LatLng myPosition = new LatLng(latitude, longitude);
+            new ResHandler(callback()).execute(url);
             map.addMarker(new MarkerOptions().position(myPosition));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
         }
+    }
+
+    private Callback<JSONObject> callback(){
+        return new Callback<JSONObject>() {
+            @Override
+            public void execute(JSONObject object) {
+                System.out.println("object = " + object);
+            }
+        };
     }
 
     @Override
