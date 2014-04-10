@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONObject;
 
@@ -37,6 +38,21 @@ public class LaunchActivity extends Activity {
             double longitude = location.getLongitude();
             LatLng myPosition = new LatLng(latitude, longitude);
             new ResHandler(callback()).execute(url);
+
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+                    intent.putExtra("Operational","yes");
+                    intent.putExtra("Hygienic","yes");
+                    intent.putExtra("Free/Paid","free");
+                    intent.putExtra("Kind","Western");
+                    intent.putExtra("Suitable For","Men and Women");
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             map.addMarker(new MarkerOptions().position(myPosition));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);

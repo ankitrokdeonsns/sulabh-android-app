@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.thoughtworks.sulabh.activity.DetailsActivity"
+
+                  android:screenOrientation="portrait"/>
+
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="4242000" />
