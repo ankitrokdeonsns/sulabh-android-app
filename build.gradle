@@ -24,6 +24,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
+        exclude 'META-INF/ASL2.0'
     }
     compileSdkVersion 19
     buildToolsVersion "19.0.3"
@@ -100,6 +101,7 @@ dependencies {
 
     compile "com.google.android.gms:play-services:4.2.42"
     compile "com.google.android:android:4.1.1.4"
+    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
 }
 
 apply plugin: 'idea'
@@ -108,4 +110,8 @@ idea {
     module {
         testOutputDir = file('build/test-classes/debug')
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
 }

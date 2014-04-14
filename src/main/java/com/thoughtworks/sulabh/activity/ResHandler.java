@@ -52,9 +52,12 @@ public class ResHandler extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         try {
-            JSONObject locations = new JSONObject(result);
+
+            JSONObject locations = new JSONObject(  result);
             callback.execute(locations);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
