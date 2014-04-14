@@ -29,36 +29,30 @@ public class LaunchActivity extends Activity {
     private LocationManager locationManager;
     String url = "http://10.12.20.133:3000/locations";
     private LooList loos;
-    private LatLng markerPosition;
     private List<Loo> looList;
-    private Loo tempLoo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         String provider = locationManager.getBestProvider(new Criteria(), true);
-        Location location = locationManager.getLastKnownLocation(provider);
+        Location currentLocation = locationManager.getLastKnownLocation(provider);
+        map.setMyLocationEnabled(true);
         if (map != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            LatLng myPosition = new LatLng(latitude, longitude);
             new ResHandler(callback()).execute(url);
 
             map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-
+                    Loo selectedLoo = getSelectedLoo(marker);
                     Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-                    intent.putExtra("Operational","yes");
-                    intent.putExtra("Hygienic", "yes");
-                    intent.putExtra("Free/Paid", "yes");
-                    intent.putExtra("Kind", "indian");
-                    intent.putExtra("Suitable For", "women");
+                    intent.putExtra("Operational", selectedLoo.getOperational());
+                    intent.putExtra("Hygienic", selectedLoo.getHygienic());
+                    intent.putExtra("Free/Paid", selectedLoo.getPaid());
+                    intent.putExtra("Kind", selectedLoo.getKind());
+                    intent.putExtra("Suitable For", selectedLoo.getCompatibility());
                     startActivity(intent);
                     return true;
                 }
@@ -66,26 +60,34 @@ public class LaunchActivity extends Activity {
             });
             ObjectMapper mapper = new ObjectMapper();
             try {
-                loos = mapper.readValue("{\"locations\":[{\"name\":\"Pheonix Market City\",\"coordinates\":[40,35]," +
-                        "\"operational\":\"yes\",\"hygienic\":\"yes\",\"paid\":\"no\",\"kind\":\"western\",\"compatibility\":\"men\"}," +
+                loos = mapper.readValue("{\"locations\":[{\"name\":\"Pheonix Market City\",\"coordinates\":[40,33]," +
+                        "\"operational\":\"yes\",\"hygienic\":\"yes\",\"paid\":\"yes\",\"kind\":\"western\",\"compatibility\":\"men\"}," +
                         "{\"name\":\"KP Mall\",\"coordinates\":[45,32]," +
-                        "\"operational\":\"yes\",\"hygienic\":\"yes\",\"paid\":\"no\",\"kind\":\"western\",\"compatibility\":\"men\"}]}",LooList.class);
+                        "\"operational\":\"yes\",\"hygienic\":\"yes\",\"paid\":\"no\",\"kind\":\"indian\",\"compatibility\":\"men\"}]}",LooList.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             looList = loos.getLocations();
-            System.out.println("**********" + looList.get(0).getName() + "****************" + looList.get(1).getCoordinates());
-            map.addMarker(new MarkerOptions().position(myPosition));
 
             for (Loo loo : looList) {
-                markerPosition = new LatLng(loo.getCoordinates().get(0),loo.getCoordinates().get(1));
+                LatLng markerPosition = new LatLng(loo.getCoordinates().get(0),loo.getCoordinates().get(1));
+                //remove field
                 map.addMarker(new MarkerOptions().position(markerPosition));
             }
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
         }
     }
 
+    private Loo getSelectedLoo(Marker marker) {
+        double markerLongitude = marker.getPosition().longitude;
+        double markerLatitude = marker.getPosition().latitude;
+        for (Loo loo : looList) {
+            if(areDoublesEqual(loo.getCoordinates().get(0), markerLatitude) && areDoublesEqual(loo.getCoordinates().get(1), markerLongitude))
+                return loo;
+        }
+        return null;
+    }
     private Callback<JSONObject> callback(){
         return new Callback<JSONObject>() {
 
@@ -95,8 +97,13 @@ public class LaunchActivity extends Activity {
 //                looList = mapper.readValue("{\"locations\":[{\"name\":\"Pheonix Market City\",\"coordinates\":[40,35]},{\"name\":\"KP Mall\",\"coordinates\":[45,32]}]}",LooList.class);
 //                List<Loo> looList = looList.getLocations();
 //                System.out.println("@@@@@@@@@@@@@@@@: "+looList.get(0).getName());
+
             }
         };
+    }
+    public static boolean areDoublesEqual(double a, double b){
+        double DELTA = 0.0000005;
+        return Math.abs(a - b) < DELTA;
     }
 
     @Override
