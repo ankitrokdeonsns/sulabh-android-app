@@ -24,8 +24,8 @@ import java.util.List;
 
 public class LaunchActivity extends Activity {
 
-    private LocationManager locationManager;
-    private LatLng markerPosition;
+	private LocationManager locationManager;
+	private LatLng markerPosition;
 	private GoogleMap map;
 
 	@Override
@@ -74,8 +74,8 @@ public class LaunchActivity extends Activity {
 	private Callback<JSONObject> callback(){
 		return new Callback<JSONObject>() {
 			@Override
-			public void execute(List<Loo> object) throws IOException {
-				addAllMarkers(map, object);
+			public void execute(List<Loo> loos) throws IOException {
+				addAllMarkers(map, loos);
 			}
 		};
 	}
