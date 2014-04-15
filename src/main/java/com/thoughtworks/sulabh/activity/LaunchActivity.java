@@ -32,50 +32,53 @@ public class LaunchActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		String provider = locationManager.getBestProvider(new Criteria(), true);
-		Location location = locationManager.getLastKnownLocation(provider);
+		Location currentLocation = locationManager.getLastKnownLocation(provider);
+		map.setMyLocationEnabled(true);
 		if (map != null) {
-			double latitude = location.getLatitude();
-			double longitude = location.getLongitude();
-			LatLng myPosition = new LatLng(latitude, longitude);
+			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 			new ResHandler(callback(), myPosition).execute();
-
-			map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-				@Override
-				public boolean onMarkerClick(Marker marker) {
-					Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-					intent.putExtra("Operational", "yes");
-					intent.putExtra("Hygienic", "yes");
-					intent.putExtra("Free/Paid", "yes");
-					intent.putExtra("Kind", "indian");
-					intent.putExtra("Suitable For", "women");
-					startActivity(intent);
-					return true;
-				}
-			});
-
-			map.addMarker(new MarkerOptions().position(myPosition));
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
 			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 		}
 	}
 
-	private void addAllMarkers(GoogleMap map, List<Loo> loos) {
-		for (Loo loo : loos) {
+	private void populateMarkers(GoogleMap map, List<Loo> loos) {
+		for (final Loo loo : loos) {
 			markerPosition = new LatLng(loo.getCoordinates()[0],loo.getCoordinates()[1]);
 			map.addMarker(new MarkerOptions().position(markerPosition));
+			map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+				@Override
+				public boolean onMarkerClick(Marker marker) {
+                    double markerLongitude = marker.getPosition().longitude;
+					double markerLatitude = marker.getPosition().latitude;
+					if(areDoublesEqual(loo.getCoordinates()[0], markerLatitude) && areDoublesEqual(loo.getCoordinates()[1], markerLongitude)){
+						Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+						intent.putExtra("Operational", loo.getOperational());
+						intent.putExtra("Hygienic", loo.getHygienic());
+						intent.putExtra("Free/Paid", loo.getPaid());
+						intent.putExtra("Kind", loo.getKind());
+						intent.putExtra("Suitable For", loo.getCompatibility());
+						startActivity(intent);
+					}
+					return true;
+				}
+			});
 		}
+	}
+
+	public static boolean areDoublesEqual(double a, double b){
+		double delta = 0.0000005;
+		return Math.abs(a - b) < delta;
 	}
 
 	private Callback<JSONObject> callback(){
 		return new Callback<JSONObject>() {
 			@Override
 			public void execute(List<Loo> loos) throws IOException {
-				addAllMarkers(map, loos);
+				populateMarkers(map, loos);
 			}
 		};
 	}
