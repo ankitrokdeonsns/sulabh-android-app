@@ -1,57 +1,54 @@
 package com.thoughtworks.sulabh;
 
-import com.example.R;
-
-import java.util.List;
+import com.google.android.gms.maps.model.LatLng;
 
 public class Loo {
-    private String name;
-    private List<Integer> coordinates;
-    private String operational;
-    private String hygienic;
-    private String paid;
-    private String kind;
-    private String compatibility;
+	private String _id;
+	private String name;
+	private double coordinates[];
+	private String operational;
+	private String hygienic;
+	private String paid;
+	private String kind;
+	private String compatibility;
 
+	private Loo() {
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Loo(String name, LatLng latLng) {
+		this.name = name;
+		this.coordinates = new double[]{latLng.latitude, latLng.longitude};
+	}
 
-    public List<Integer> getCoordinates() {
-        return coordinates;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getOperational() {
-        return operational;
-    }
+	public double[] getCoordinates() {
+		return coordinates;
+	}
 
-    public String getHygienic() {
-        return hygienic;
-    }
+	public String getOperational() {
+		return operational;
+	}
 
-    public String getPaid() {
-        return paid;
-    }
+	public String getHygienic() {
+		return hygienic;
+	}
 
-    public String getKind() {
-        return kind;
-    }
+	public String getPaid() {
+		return paid;
+	}
 
-    public String getCompatibility() {
-        return compatibility;
-    }
+	public String getKind() {
+		return kind;
+	}
 
-    @Override
-    public String toString() {
-        return "Loo{" +
-                "name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", operational='" + operational + '\'' +
-                ", hygienic='" + hygienic + '\'' +
-                ", paid='" + paid + '\'' +
-                ", kind='" + kind + '\'' +
-                ", compatibility='" + compatibility + '\'' +
-                '}';
-    }
+	public String getCompatibility() {
+		return compatibility;
+	}
+
+	public String get_id() {
+		return _id;
+	}
 }

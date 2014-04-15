@@ -99,9 +99,12 @@ dependencies {
     }
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
 
+    instrumentTestCompile "org.jongo:jongo:1.0"
+    instrumentTestCompile "org.mongodb:mongo-java-driver:2.12.0"
     compile "com.google.android.gms:play-services:4.2.42"
     compile "com.google.android:android:4.1.1.4"
     compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+    testCompile "junit:junit:4.11"
 }
 
 apply plugin: 'idea'

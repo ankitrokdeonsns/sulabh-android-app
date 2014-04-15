@@ -1,9 +1,10 @@
 package com.thoughtworks.sulabh.activity;
 
-import org.codehaus.jackson.JsonParseException;
+import com.thoughtworks.sulabh.Loo;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface Callback<T> {
-    public void execute(T object) throws IOException;
+	public void execute(List<Loo> object) throws IOException;
 }
