@@ -24,88 +24,88 @@ import java.util.List;
 
 public class LaunchActivity extends Activity {
 
-  private LocationManager locationManager;
-  private LatLng markerPosition;
-  private GoogleMap map;
-  Loo selectedLoo;
+	private LocationManager locationManager;
+	private LatLng markerPosition;
+	private GoogleMap map;
+	Loo selectedLoo;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
-    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-    String provider = locationManager.getBestProvider(new Criteria(), true);
-    Location currentLocation = locationManager.getLastKnownLocation(provider);
-    map.setMyLocationEnabled(true);
-    if (map != null) {
-      LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-      new ResHandler(callback(), myPosition).execute();
-      map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
-      map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-    }
-  }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		String provider = locationManager.getBestProvider(new Criteria(), true);
+		Location currentLocation = locationManager.getLastKnownLocation(provider);
+		map.setMyLocationEnabled(true);
+		if (map != null) {
+			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+			new ResHandler(callback(), myPosition).execute();
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
+			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+		}
+	}
 
-  private void populateMarkers(GoogleMap map, final List<Loo> loos) {
-    for (final Loo loo : loos) {
-      markerPosition = new LatLng(loo.getCoordinates()[0],loo.getCoordinates()[1]);
-      map.addMarker(new MarkerOptions().position(markerPosition));
-    }
-    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-      @Override
-      public boolean onMarkerClick(Marker marker) {
-        for (Loo loo : loos) {
-          if(loo.isSamePositionAs(marker.getPosition())){
-            selectedLoo = loo;
-          }
-        }
-        Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-        intent.putExtra("Operational", selectedLoo.getOperational());
-        intent.putExtra("Hygienic", selectedLoo.getHygienic());
-        intent.putExtra("Free/Paid", selectedLoo.getPaid());
-        intent.putExtra("Kind", selectedLoo.getKind());
-        intent.putExtra("Suitable For", selectedLoo.getCompatibility());
-        startActivity(intent);
+	private void populateMarkers(GoogleMap map, final List<Loo> loos) {
+		for (final Loo loo : loos) {
+			markerPosition = new LatLng(loo.getCoordinates()[0],loo.getCoordinates()[1]);
+			map.addMarker(new MarkerOptions().position(markerPosition));
+		}
+		map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+			@Override
+			public boolean onMarkerClick(Marker marker) {
+				for (Loo loo : loos) {
+					if(loo.isSamePositionAs(marker.getPosition())){
+						selectedLoo = loo;
+					}
+				}
+				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+				intent.putExtra("Operational", selectedLoo.getOperational());
+				intent.putExtra("Hygienic", selectedLoo.getHygienic());
+				intent.putExtra("Free/Paid", selectedLoo.getPaid());
+				intent.putExtra("Kind", selectedLoo.getKind());
+				intent.putExtra("Suitable For", selectedLoo.getCompatibility());
+				startActivity(intent);
 
-        return true;
-      }
-    });
+				return true;
+			}
+		});
 
-  }
+	}
 
-  private Callback<JSONObject> callback(){
-    return new Callback<JSONObject>() {
-      @Override
-      public void execute(List<Loo> loos) throws IOException {
-        populateMarkers(map, loos);
-      }
-    };
-  }
+	private Callback<JSONObject> callback(){
+		return new Callback<JSONObject>() {
+			@Override
+			public void execute(List<Loo> loos) throws IOException {
+				populateMarkers(map, loos);
+			}
+		};
+	}
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-      buildAlertMessageNoGps();
-    }
-  }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+			buildAlertMessageNoGps();
+		}
+	}
 
-  private void buildAlertMessageNoGps() {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-      .setCancelable(false)
-      .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-          startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-        }
-      })
-      .setNegativeButton("No", new DialogInterface.OnClickListener() {
-        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-          dialog.cancel();
-          System.exit(0);
-        }
-      });
-    final AlertDialog alert = builder.create();
-    alert.show();
-  }
+	private void buildAlertMessageNoGps() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+						startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+						dialog.cancel();
+						System.exit(0);
+					}
+				});
+		final AlertDialog alert = builder.create();
+		alert.show();
+	}
 }
