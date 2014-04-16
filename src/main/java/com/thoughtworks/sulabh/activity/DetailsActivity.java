@@ -25,15 +25,15 @@ public class DetailsActivity extends Activity{
 
 		String isOperational = extras.getString("Operational");
 		TextView operational = (TextView) findViewById(R.id.isOperational);
-		operational.setText(isOperational);
+		operational.setText(mapValues(isOperational));
 
 		String isHygienic = extras.getString("Hygienic");
 		TextView hygienic = (TextView) findViewById(R.id.isHygienic);
-		hygienic.setText(isHygienic);
+		hygienic.setText(mapValues(isHygienic));
 
 		String isFree = extras.getString("Free/Paid");
 		TextView free = (TextView) findViewById(R.id.isFree);
-		free.setText(isFree);
+		free.setText(mapValues(isFree));
 
 		String ofKind = extras.getString("Kind");
 		TextView kind = (TextView) findViewById(R.id.ofKind);
@@ -42,5 +42,13 @@ public class DetailsActivity extends Activity{
 		String isSuitableFor = extras.getString("Suitable For");
 		TextView suitable = (TextView) findViewById(R.id.suitableFor);
 		suitable.setText(isSuitableFor);
+	}
+
+	public String mapValues(String field) {
+		if(field.equals("true"))
+			field = "Yes";
+		else
+			field = "No";
+		return field;
 	}
 }
