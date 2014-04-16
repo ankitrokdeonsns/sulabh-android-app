@@ -6,18 +6,25 @@ public class Loo {
 	private String _id;
 	private String name;
 	private double coordinates[];
-	private String operational;
-	private String hygienic;
-	private String paid;
-	private String kind;
-	private String compatibility;
+	private int rating;
+	private Boolean operational;
+	private Boolean hygienic;
+	private Boolean free;
+	private String type;
+	private String suitableFor[];
 
-	private Loo() {
-	}
+	private Loo() {}
 
-	public Loo(String name, LatLng latLng) {
+	public Loo(String[] suitableFor, String type, Boolean free, Boolean hygienic, Boolean operational, int rating, double[] coordinates, String name) {
+
+		this.suitableFor = suitableFor;
+		this.type = type;
+		this.free = free;
+		this.hygienic = hygienic;
+		this.operational = operational;
+		this.rating = rating;
+		this.coordinates = coordinates;
 		this.name = name;
-		this.coordinates = new double[]{latLng.latitude, latLng.longitude};
 	}
 
 	public String getName() {
@@ -28,24 +35,31 @@ public class Loo {
 		return coordinates;
 	}
 
-	public String getOperational() {
+	public int getRating() {
+		return rating;
+	}
+
+	public Boolean getOperational() {
 		return operational;
 	}
 
-	public String getHygienic() {
+	public Boolean getHygienic() {
 		return hygienic;
 	}
 
-	public String getPaid() {
-		return paid;
+	public Boolean getFree() {
+		return free;
 	}
 
-	public String getKind() {
-		return kind;
+	public String getType() {
+		return type;
 	}
 
-	public String getCompatibility() {
-		return compatibility;
+	public String getSuitableFor() {
+		StringBuilder suitable = new StringBuilder();
+		for (String s : suitableFor)
+			suitable.append(" " + s);
+		return suitable.toString();
 	}
 
 	public String get_id() {
@@ -60,5 +74,4 @@ public class Loo {
 		double delta = 0.0000005;
 		return Math.abs(a - b) < delta;
 	}
-
 }

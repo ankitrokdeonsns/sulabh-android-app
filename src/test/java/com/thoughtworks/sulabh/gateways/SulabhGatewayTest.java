@@ -1,6 +1,5 @@
 package com.thoughtworks.sulabh.gateways;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.thoughtworks.sulabh.Loo;
@@ -32,7 +31,7 @@ public class SulabhGatewayTest {
 		String name = "abcd";
 		double latitude = 18.55586959;
 		double longitude = 73.89150673;
-		Loo loo = new Loo(name, new LatLng(latitude, longitude));
+		Loo loo = new Loo(new String[]{"Men","Women"},"Indian",true, false, true, 5, new double[]{latitude, longitude}, "abcd");
 		locations.save(loo);
 		List<Loo> looList = new SulabhGateway().getLoos(18.54, 73.89, 2);
 		assertEquals(1, looList.size());
