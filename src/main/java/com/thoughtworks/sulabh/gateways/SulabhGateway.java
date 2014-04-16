@@ -29,7 +29,6 @@ public class SulabhGateway {
 			String url = "http://10.12.124.216:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
 			HttpResponse response = httpclient.execute(new HttpGet(url));
 			StatusLine statusLine = response.getStatusLine();
-
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
