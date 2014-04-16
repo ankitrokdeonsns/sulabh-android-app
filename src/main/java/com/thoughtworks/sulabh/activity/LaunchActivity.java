@@ -60,13 +60,14 @@ public class LaunchActivity extends Activity {
 					}
 				}
 				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-				intent.putExtra("Operational", selectedLoo.getOperational());
-				intent.putExtra("Hygienic", selectedLoo.getHygienic());
-				intent.putExtra("Free/Paid", selectedLoo.getPaid());
-				intent.putExtra("Kind", selectedLoo.getKind());
-				intent.putExtra("Suitable For", selectedLoo.getCompatibility());
+				intent.putExtra("Name", selectedLoo.getName());
+				intent.putExtra("Rating", selectedLoo.getRating());
+				intent.putExtra("Operational", selectedLoo.getOperational().toString());
+				intent.putExtra("Hygienic", selectedLoo.getHygienic().toString());
+				intent.putExtra("Free/Paid", selectedLoo.getFree().toString());
+				intent.putExtra("Kind", selectedLoo.getType());
+				intent.putExtra("Suitable For", selectedLoo.getSuitableFor());
 				startActivity(intent);
-
 				return true;
 			}
 		});
