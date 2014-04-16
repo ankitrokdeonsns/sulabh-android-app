@@ -29,9 +29,9 @@ public class LaunchActivity extends Activity {
 	private LatLng markerPosition;
 	private GoogleMap map;
 	Loo selectedLoo;
-  private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog;
 
-  @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -42,17 +42,13 @@ public class LaunchActivity extends Activity {
 		map.setMyLocationEnabled(true);
 		if (map != null) {
 			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
-
-      progressDialog = new ProgressDialog(LaunchActivity.this);
-      progressDialog.setCancelable(true);
-      progressDialog.setMessage("Loading...");
-      progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-      progressDialog.setProgress(0);
-      progressDialog.show();
-
-
-      new ResHandler(callback(), myPosition).execute();
+			progressDialog = new ProgressDialog(LaunchActivity.this);
+			progressDialog.setCancelable(true);
+			progressDialog.setMessage("Loading...");
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setProgress(0);
+			progressDialog.show();
+			new ResHandler(callback(), myPosition).execute();
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
 			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 		}
@@ -91,7 +87,7 @@ public class LaunchActivity extends Activity {
 			@Override
 			public void execute(List<Loo> loos) throws IOException {
 				populateMarkers(map, loos);
-        progressDialog.dismiss();
+				progressDialog.dismiss();
 			}
 		};
 	}
