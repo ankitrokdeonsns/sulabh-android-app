@@ -7,4 +7,5 @@ target
 build
 .gradle
 local.properties
-*~
+*.ipr
+*.iws
