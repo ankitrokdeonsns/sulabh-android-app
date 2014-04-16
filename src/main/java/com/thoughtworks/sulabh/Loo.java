@@ -51,4 +51,14 @@ public class Loo {
 	public String get_id() {
 		return _id;
 	}
+
+	public boolean isSamePositionAs(LatLng position) {
+		return areDoublesEqual(this.getCoordinates()[0], position.latitude) && areDoublesEqual(this.getCoordinates()[1], position.longitude);
+	}
+
+	private boolean areDoublesEqual(double a, double b) {
+		double delta = 0.0000005;
+		return Math.abs(a - b) < delta;
+	}
+
 }

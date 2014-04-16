@@ -2,6 +2,7 @@ package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
@@ -12,7 +13,9 @@ import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.thoughtworks.sulabh.Loo;
 import org.json.JSONObject;
 
@@ -25,24 +28,22 @@ public class LaunchActivity extends Activity {
 	private LatLng markerPosition;
 	private GoogleMap map;
 	Loo selectedLoo;
-	private LatLng myPosition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		String provider = locationManager.getBestProvider(new Criteria(), true);
 		Location currentLocation = locationManager.getLastKnownLocation(provider);
-		myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-		new ResHandler(callback(), myPosition).execute();
-		BitmapDescriptor currentLocationIcon = BitmapDescriptorFactory.fromResource(R.drawable.current_position);
-		map.addMarker(new MarkerOptions().position(myPosition).icon(currentLocationIcon));
-		double latitude = currentLocation.getLatitude();
-		double longitude = currentLocation.getLongitude();
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-		map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+		map.setMyLocationEnabled(true);
+		if (map != null) {
+			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+			new ResHandler(callback(), myPosition).execute();
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
+			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+		}
 	}
 
 	private void populateMarkers(GoogleMap map, final List<Loo> loos) {
@@ -53,12 +54,8 @@ public class LaunchActivity extends Activity {
 		map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 			@Override
 			public boolean onMarkerClick(Marker marker) {
-				if (marker.getPosition().equals(myPosition))
-					return true;
-				double markerLongitude = marker.getPosition().longitude;
-				double markerLatitude = marker.getPosition().latitude;
 				for (Loo loo : loos) {
-					if(areDoublesEqual(loo.getCoordinates()[0], markerLatitude) && areDoublesEqual(loo.getCoordinates()[1], markerLongitude)){
+					if(loo.isSamePositionAs(marker.getPosition())){
 						selectedLoo = loo;
 					}
 				}
@@ -69,15 +66,11 @@ public class LaunchActivity extends Activity {
 				intent.putExtra("Kind", selectedLoo.getKind());
 				intent.putExtra("Suitable For", selectedLoo.getCompatibility());
 				startActivity(intent);
+
 				return true;
 			}
 		});
 
-	}
-
-	public static boolean areDoublesEqual(double a, double b){
-		double delta = 0.0000005;
-		return Math.abs(a - b) < delta;
 	}
 
 	private Callback<JSONObject> callback(){
