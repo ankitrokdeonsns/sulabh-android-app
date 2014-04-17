@@ -26,7 +26,8 @@ public class SulabhGateway {
 
 	public List<Loo> getLoos(double latitude, double longitude, int radius) {
 		try {
-			String url = "http://10.12.124.216:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
+			String url = "http://10.12.124.32:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
+			System.out.println("url = " + url);
 			HttpResponse response = httpclient.execute(new HttpGet(url));
 			StatusLine statusLine = response.getStatusLine();
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){

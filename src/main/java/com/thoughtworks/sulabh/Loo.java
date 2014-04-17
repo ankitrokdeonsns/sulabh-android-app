@@ -2,7 +2,9 @@ package com.thoughtworks.sulabh;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Loo {
+import java.io.Serializable;
+
+public class Loo implements Serializable{
 	private String _id;
 	private String name;
 	private double coordinates[];

@@ -8,7 +8,6 @@ import org.jongo.MongoCollection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.UnknownHostException;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -27,18 +26,19 @@ public class SulabhGatewayTest {
 	}
 
 	@Test
-	public void showsLoosAround2kmRadiusOfYourCurrentLocation() throws UnknownHostException {
+	public void showsLoosAround2kmRadiusOfYourCurrentLocation() {
 		String name = "abcd";
 		double latitude = 18.55586959;
 		double longitude = 73.89150673;
 		Loo loo = new Loo(new String[]{"Men","Women"},"Indian",true, false, true, 5, new double[]{latitude, longitude}, "abcd");
 		locations.save(loo);
+
 		List<Loo> looList = new SulabhGateway().getLoos(18.54, 73.89, 2);
+
 		assertEquals(1, looList.size());
-		for (Loo loo1 : looList) {
-			assertEquals(name, loo1.getName());
-			assertEquals(latitude, loo1.getCoordinates()[0]);
-			assertEquals(longitude, loo1.getCoordinates()[1]);
-		}
+		Loo loo1 = looList.get(0);
+		assertEquals(name, loo1.getName());
+		assertEquals(latitude, loo1.getCoordinates()[0]);
+		assertEquals(longitude, loo1.getCoordinates()[1]);
 	}
 }
