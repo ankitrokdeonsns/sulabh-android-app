@@ -50,7 +50,7 @@ public class LaunchActivity extends Activity {
 			progressDialog.show();
 			new ResHandler(callback(), myPosition).execute();
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
-			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 		}
 	}
 
