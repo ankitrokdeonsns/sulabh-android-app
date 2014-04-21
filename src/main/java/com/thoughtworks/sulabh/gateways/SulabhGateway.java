@@ -2,17 +2,21 @@ package com.thoughtworks.sulabh.gateways;
 
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.LooList;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SulabhGateway {
@@ -26,7 +30,7 @@ public class SulabhGateway {
 
 	public List<Loo> getLoos(double latitude, double longitude, int radius) {
 		try {
-			String url = "http://10.12.124.2:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
+			String url = "http://10.12.124.32:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
 			System.out.println("url = " + url);
 			HttpResponse response = httpclient.execute(new HttpGet(url));
 			StatusLine statusLine = response.getStatusLine();
@@ -48,5 +52,36 @@ public class SulabhGateway {
 			e.printStackTrace();
 		}
 		return loos.getLocations();
+	}
+
+	public boolean addLoo(Loo loo) {
+		try {
+			HttpClient client = new DefaultHttpClient();
+			String postURL = "http://10.12.124.32:3000/add";
+			HttpPost post = new HttpPost(postURL);
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("name", loo.getName()));
+			params.add(new BasicNameValuePair("longitude", Double.toString(loo.getCoordinates()[0])));
+			params.add(new BasicNameValuePair("latitude", Double.toString(loo.getCoordinates()[1])));
+			params.add(new BasicNameValuePair("rating", Integer.toString(loo.getRating())));
+			params.add(new BasicNameValuePair("operational", loo.getOperational().toString()));
+			params.add(new BasicNameValuePair("hygienic", loo.getHygienic().toString()));
+			params.add(new BasicNameValuePair("free", loo.getFree().toString()));
+			params.add(new BasicNameValuePair("kind", loo.getType()));
+			params.add(new BasicNameValuePair("suitableFor", loo.getSuitableFor()));
+
+			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+			post.setEntity(ent);
+			HttpResponse responsePOST = client.execute(post);
+			HttpEntity resEntity = responsePOST.getEntity();
+			if (resEntity != null) {
+				String responseString = EntityUtils.toString(resEntity);
+				System.out.println("RESPONSE = "+ responseString);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
