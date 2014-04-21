@@ -10,9 +10,11 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,15 +35,25 @@ public class LaunchActivity extends Activity {
 	private GoogleMap map;
 	Loo selectedLoo;
 	private ProgressDialog progressDialog;
+	private Location currentLocation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		final Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		if(extras!=null){
+			String toastMessage = String.valueOf(extras.get("toastMessage"));
+			Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
+		}
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		String provider = locationManager.getBestProvider(new Criteria(), true);
-		Location currentLocation = locationManager.getLastKnownLocation(provider);
+		currentLocation = locationManager.getLastKnownLocation(provider);
 		map.setMyLocationEnabled(true);
 		if (map != null) {
 			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -126,6 +138,7 @@ public class LaunchActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
+		intent.putExtra("coordinates",new double[]{currentLocation.getLatitude(), currentLocation.getLongitude()});
 		startActivity(intent);
 		return true;
 	}
