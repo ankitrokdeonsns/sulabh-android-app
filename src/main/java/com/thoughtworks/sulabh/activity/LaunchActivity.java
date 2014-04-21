@@ -46,10 +46,8 @@ public class LaunchActivity extends Activity {
 		Bundle extras = intent.getExtras();
 		if(extras!=null){
 			String toastMessage = String.valueOf(extras.get("toastMessage"));
-			System.out.println("toastMessage = " + toastMessage);
 			Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
 		}
-
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

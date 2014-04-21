@@ -66,7 +66,7 @@ public class AddLooActivity extends Activity{
 				boolean isAdded = new SulabhGateway().addLoo(newLoo);
 				if (isAdded) {
 					Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
-					intent.putExtra("toastMessage", "Added Succesfully");
+					intent.putExtra("toastMessage", "Added Successfully");
 					startActivity(intent);
 				}
 			}

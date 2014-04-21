@@ -1,6 +1,5 @@
 package com.thoughtworks.sulabh.gateways;
 
-import android.os.StrictMode;
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.LooList;
 import org.apache.http.*;
@@ -63,13 +62,10 @@ public class SulabhGateway {
 			HttpPost post = new HttpPost(postURL);
 			List<NameValuePair> params = getNameValuePairs(loo);
 
-			System.out.println("**********PARAMS ADDED");
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params);
 			post.setEntity(ent);
 			HttpResponse responsePOST = client.execute(post);
 			int code = responsePOST.getStatusLine().getStatusCode();
-			System.out.println("****************code = " + code);
-			System.out.println("**********GOT RESPONSE");
 			HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
 				String responseString = EntityUtils.toString(resEntity);
