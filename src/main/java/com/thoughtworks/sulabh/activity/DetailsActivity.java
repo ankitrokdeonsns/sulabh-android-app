@@ -3,6 +3,9 @@ package com.thoughtworks.sulabh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.example.R;
@@ -45,6 +48,14 @@ public class DetailsActivity extends Activity{
 		String isSuitableFor = loo.getSuitableFor();
 		TextView suitable = (TextView) findViewById(R.id.suitableFor);
 		suitable.setText(isSuitableFor);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.edit, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	public String mapValues(String field) {
