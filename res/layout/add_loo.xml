@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:weightSum="1">
+
+    <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="4"
+            android:rowCount="20" android:columnOrderPreserved="true" android:padding="0.5dp"
+            android:layout_margin="5dp">
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Name"
+                android:textSize="25dp"
+                android:id="@+id/name" android:layout_column="0"  android:layout_row="0"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text=""
+                android:textSize="25dp"
+                android:id="@+id/addName" android:layout_column="2"  android:layout_row="0"/>
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Rating"
+                android:textSize="25dp"
+                android:id="@+id/rating" android:layout_column="0"  android:layout_row="4"/>
+        <RatingBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar" android:layout_gravity="center_horizontal" android:layout_weight="0.09"
+                android:numStars="5" android:rating="5" android:indeterminateOnly="false"
+                android:layout_column="2"  android:layout_row="4" android:layout_columnSpan="2"/>
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Operational"
+                android:textSize="25dp"
+                android:id="@+id/operational" android:layout_column="0"  android:layout_row="9"/>
+        <RadioGroup
+                android:layout_width="146dp"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:orientation="horizontal"
+                android:id="@+id/isOperational" android:layout_row="9" android:layout_column="2">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:id="@+id/operationalYes" />
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:id="@+id/operationalNo" />
+        </RadioGroup>
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Hygienic"
+                android:textSize="25dp"
+                android:id="@+id/hygienic" android:layout_column="0" android:layout_row="11"/>
+        <RadioGroup
+                android:layout_width="146dp"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:orientation="horizontal"
+                android:id="@+id/isHygienic" android:layout_row="11" android:layout_column="2">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:id="@+id/hygienicYes" android:layout_row="11" android:layout_column="2"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:id="@+id/hygienicNo" android:layout_row="11" android:layout_column="3"/>
+        </RadioGroup>
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Free"
+                android:textSize="25dp"
+                android:id="@+id/free"  android:layout_column="0" android:layout_row="13"
+                android:layout_columnSpan="2"/>
+        <RadioGroup
+                android:layout_width="146dp"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:orientation="horizontal"
+                android:id="@+id/isFree" android:layout_row="13" android:layout_column="2">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:id="@+id/freeYes" android:layout_row="13"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:id="@+id/freeNo" android:layout_row="13" android:layout_column="3"/>
+        </RadioGroup>
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Kind"
+                android:textSize="25dp"
+                android:id="@+id/kind" android:layout_column="0" android:layout_row="15"/>
+        <Spinner
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:entries="@array/kind"
+                android:layout_column="2" android:layout_row="15" />
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Suitable For"
+                android:textSize="25dp"
+                android:id="@+id/suitable"  android:layout_column="0" android:layout_row="17"/>
+
+        <Spinner
+                android:id="@+id/suitableTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2" android:layout_row="17"
+                android:entries="@array/suitableFor"/>
+
+        <Button
+                android:id="@+id/submit"
+                android:text="Submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2" android:layout_row="19"/>
+    </GridLayout>
+
+</ScrollView>

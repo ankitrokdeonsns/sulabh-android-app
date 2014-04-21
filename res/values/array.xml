@@ -1,0 +1,14 @@
+<resources>
+    <string-array name="suitableFor">
+        <item>Men</item>
+        <item>Women</item>
+        <item>TransGender</item>
+        <item>Babies</item>
+        <item>Handicapped</item>
+    </string-array>
+
+    <string-array name="kind">
+        <item>Indian</item>
+        <item>Western</item>
+    </string-array>
+</resources>

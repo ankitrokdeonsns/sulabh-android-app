@@ -41,4 +41,16 @@ public class SulabhGatewayTest {
 		assertEquals(latitude, loo1.getCoordinates()[0]);
 		assertEquals(longitude, loo1.getCoordinates()[1]);
 	}
+
+	@Test
+	public  void addLoosToDatabaseWhenProvidedAllData() {
+		String name = "abcd";
+		double latitude = 18.55586959;
+		double longitude = 73.89150673;
+		Loo loo = new Loo(new String[]{"Men","Women"},"Indian",true, false, true, 5, new double[]{latitude, longitude}, name);
+
+		boolean isAdded = new SulabhGateway().addLoo(loo);
+
+		assertEquals(true, isAdded);
+	}
 }
