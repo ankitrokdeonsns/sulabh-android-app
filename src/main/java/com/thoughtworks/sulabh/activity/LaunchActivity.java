@@ -10,6 +10,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -111,5 +113,12 @@ public class LaunchActivity extends Activity {
 				});
 		final AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 }
