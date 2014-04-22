@@ -66,6 +66,7 @@ public class DetailsActivity extends Activity{
 		Intent intent = new Intent(DetailsActivity.this, UpdateLooActivity.class);
 		intent.putExtra("Loo",loo);
 		startActivity(intent);
+		finish();
 		return true;
 	}
 

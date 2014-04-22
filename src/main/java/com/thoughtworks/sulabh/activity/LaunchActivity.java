@@ -85,6 +85,7 @@ public class LaunchActivity extends Activity {
 				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
 				intent.putExtra("Loo", selectedLoo);
 				startActivity(intent);
+				finish();
 				return true;
 			}
 		});
@@ -140,6 +141,7 @@ public class LaunchActivity extends Activity {
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
 		intent.putExtra("coordinates",new double[]{currentLocation.getLatitude(), currentLocation.getLongitude()});
 		startActivity(intent);
+		finish();
 		return true;
 	}
 }

@@ -92,6 +92,7 @@ public class UpdateLooActivity extends Activity{
 					intent.putExtra("toastMessage", "Updated Successfully");
 					intent.putExtra("isPressed", true);
 					startActivity(intent);
+					finish();
 				}
 			}
 		});

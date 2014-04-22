@@ -69,6 +69,7 @@ public class AddLooActivity extends Activity{
 					intent.putExtra("toastMessage", "Added Successfully");
 					intent.putExtra("isPressed",true);
 					startActivity(intent);
+					finish();
 				}
 			}
 		});
