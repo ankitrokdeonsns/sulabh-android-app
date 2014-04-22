@@ -61,6 +61,7 @@ public class UpdateLooActivity extends Activity{
 		suitableFor = (Spinner) findViewById(R.id.suitableTo);
 
 		submit = (Button) findViewById(R.id.submit);
+		submit.setText("Update");
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
