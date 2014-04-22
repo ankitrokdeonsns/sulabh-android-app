@@ -52,12 +52,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yes"
-                    android:id="@+id/operationalYes" />
+                    android:id="@+id/operationalYes" android:width="80dp"/>
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"
-                    android:id="@+id/operationalNo" />
+                    android:id="@+id/operationalNo" android:width="80dp"/>
         </RadioGroup>
 
         <TextView
@@ -76,12 +76,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yes"
-                    android:id="@+id/hygienicYes" android:layout_row="11" android:layout_column="2"/>
+                    android:id="@+id/hygienicYes" android:width="80dp"/>
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"
-                    android:id="@+id/hygienicNo" android:layout_row="11" android:layout_column="3"/>
+                    android:id="@+id/hygienicNo" android:width="80dp"/>
         </RadioGroup>
 
         <TextView
@@ -101,12 +101,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yes"
-                    android:id="@+id/freeYes" android:layout_row="13"/>
+                    android:id="@+id/freeYes" android:width="80dp"/>
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"
-                    android:id="@+id/freeNo" android:layout_row="13" android:layout_column="3"/>
+                    android:id="@+id/freeNo" android:width="80dp"/>
         </RadioGroup>
 
         <TextView
