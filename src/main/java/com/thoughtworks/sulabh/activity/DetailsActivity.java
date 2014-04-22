@@ -63,7 +63,7 @@ public class DetailsActivity extends Activity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(DetailsActivity.this, EditLooActivity.class);
+		Intent intent = new Intent(DetailsActivity.this, UpdateLooActivity.class);
 		intent.putExtra("Loo",loo);
 		startActivity(intent);
 		return true;

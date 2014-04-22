@@ -54,18 +54,15 @@ public class SulabhGateway {
 		return loos.getLocations();
 	}
 
-	public boolean addLoo(Loo loo) {
+	private boolean getResponse(Loo loo, String postURL) {
 		try {
-
 			HttpClient client = new DefaultHttpClient();
-			String postURL = "http://10.12.124.32:3000/add";
 			HttpPost post = new HttpPost(postURL);
 			List<NameValuePair> params = getNameValuePairs(loo);
 
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params);
 			post.setEntity(ent);
 			HttpResponse responsePOST = client.execute(post);
-			int code = responsePOST.getStatusLine().getStatusCode();
 			HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
 				String responseString = EntityUtils.toString(resEntity);
@@ -82,11 +79,22 @@ public class SulabhGateway {
 		return false;
 	}
 
+	public boolean addLoo(Loo loo) {
+		String url = "http://10.12.124.93:3000/add";
+		return getResponse(loo, url);
+	}
+
+	public boolean updateLoo(Loo loo) {
+		String url = "http://10.12.124.93:3000/update";
+		return getResponse(loo, url);
+	}
+
+
 	private List<NameValuePair> getNameValuePairs(Loo loo) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("name", loo.getName()));
-		params.add(new BasicNameValuePair("longitude", Double.toString(loo.getCoordinates()[0])));
-		params.add(new BasicNameValuePair("latitude", Double.toString(loo.getCoordinates()[1])));
+		params.add(new BasicNameValuePair("latitude", Double.toString(loo.getCoordinates()[0])));
+		params.add(new BasicNameValuePair("longitude", Double.toString(loo.getCoordinates()[1])));
 		params.add(new BasicNameValuePair("rating", Integer.toString(loo.getRating())));
 		params.add(new BasicNameValuePair("operational", loo.getOperational().toString()));
 		params.add(new BasicNameValuePair("hygienic", loo.getHygienic().toString()));

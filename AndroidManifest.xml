@@ -22,7 +22,7 @@
         <activity android:name="com.thoughtworks.sulabh.activity.AddLooActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.thoughtworks.sulabh.activity.EditLooActivity"
+        <activity android:name="com.thoughtworks.sulabh.activity.UpdateLooActivity"
                   android:screenOrientation="portrait"/>
 
 

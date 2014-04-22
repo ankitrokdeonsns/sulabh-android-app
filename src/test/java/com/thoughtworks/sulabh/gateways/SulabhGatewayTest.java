@@ -53,4 +53,19 @@ public class SulabhGatewayTest {
 
 		assertEquals(true, isAdded);
 	}
+
+	@Test
+	public void updateLooDetailsWhenDetailsProvided() {
+		Loo oldLoo = new Loo(new String[]{"Men","Women"},"Indian",true, false, true, 5, new double[]{18.55586959, 73.89150673}, "ooooo");
+		SulabhGateway sulabhGateway = new SulabhGateway();
+		sulabhGateway.addLoo(oldLoo);
+		String name = "xyz";
+		double latitude = 18.55586959;
+		double longitude = 73.89150673;
+		Loo newLoo = new Loo(new String[]{"Men","Women"},"Indian",true, false, true, 5, new double[]{latitude, longitude}, name);
+
+		boolean isUpdated = sulabhGateway.updateLoo(newLoo);
+
+		assertEquals(true, isUpdated);
+	}
 }
