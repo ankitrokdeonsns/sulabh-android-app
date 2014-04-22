@@ -12,6 +12,9 @@ import com.example.R;
 import com.thoughtworks.sulabh.Loo;
 
 public class DetailsActivity extends Activity{
+
+	private Loo loo;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,7 +22,7 @@ public class DetailsActivity extends Activity{
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 
-		Loo loo = (Loo) extras.getSerializable("Loo");
+		loo = (Loo) extras.getSerializable("Loo");
 
 		String name = loo.getName();
 		TextView placeName = (TextView) findViewById(R.id.placeName);
@@ -56,6 +59,14 @@ public class DetailsActivity extends Activity{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.edit, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent(DetailsActivity.this, EditLooActivity.class);
+		intent.putExtra("Loo",loo);
+		startActivity(intent);
+		return true;
 	}
 
 	public String mapValues(String field) {
