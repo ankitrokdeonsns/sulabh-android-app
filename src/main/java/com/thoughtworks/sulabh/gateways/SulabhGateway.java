@@ -89,7 +89,6 @@ public class SulabhGateway {
 		return getResponse(loo, url);
 	}
 
-
 	private List<NameValuePair> getNameValuePairs(Loo loo) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("name", loo.getName()));
