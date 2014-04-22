@@ -44,7 +44,7 @@ public class LaunchActivity extends Activity {
 
 		final Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
-		if(extras!=null){
+		if(extras!=null && extras.getBoolean("isPressed") == true){
 			String toastMessage = String.valueOf(extras.get("toastMessage"));
 			Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
 		}

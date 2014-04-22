@@ -67,6 +67,7 @@ public class AddLooActivity extends Activity{
 				if (isAdded) {
 					Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
 					intent.putExtra("toastMessage", "Added Successfully");
+					intent.putExtra("isPressed",true);
 					startActivity(intent);
 				}
 			}
