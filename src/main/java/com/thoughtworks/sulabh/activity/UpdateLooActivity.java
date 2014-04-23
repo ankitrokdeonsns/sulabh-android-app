@@ -21,7 +21,7 @@ public class UpdateLooActivity extends Activity{
 	private RadioButton hygienic;
 	private RadioButton free;
 	private Spinner kind;
-	private Spinner suitableFor;
+	private Button suitableFor;
 	private Loo newLoo;
 
 	@Override
@@ -58,7 +58,7 @@ public class UpdateLooActivity extends Activity{
 			freeStatus.findViewById(R.id.freeNo).performClick();
 
 		kind = (Spinner) findViewById(R.id.type);
-		suitableFor = (Spinner) findViewById(R.id.suitableTo);
+		suitableFor = (Button) findViewById(R.id.suitableTo);
 
 		submit = (Button) findViewById(R.id.submit);
 		submit.setText("Update");
@@ -81,10 +81,11 @@ public class UpdateLooActivity extends Activity{
 				boolean isFreeChecked = free.isChecked();
 
 				String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
-				String suitableFor = UpdateLooActivity.this.suitableFor.getSelectedItem().toString();
+                String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
+                String[] suitableCategories = suitableFor.split(",");
 				double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
 
-				newLoo = new Loo(new String[]{suitableFor}, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
+				newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
 
 				boolean isAdded = new SulabhGateway().updateLoo(newLoo);
 				if (isAdded) {

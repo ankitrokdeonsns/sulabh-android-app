@@ -13,7 +13,7 @@ public class Loo implements Serializable{
 	private Boolean hygienic;
 	private Boolean free;
 	private String type;
-	private String suitableFor[];
+	private String[] suitableFor;
 
 	private Loo() {}
 
@@ -59,9 +59,12 @@ public class Loo implements Serializable{
 
 	public String getSuitableFor() {
 		StringBuilder suitable = new StringBuilder();
-		for (String s : suitableFor)
-			suitable.append(" " + s);
-		return suitable.toString();
+		for (String s : suitableFor) {
+            System.out.println("s = " + s);
+            suitable.append(s + "\n");
+        }
+        System.out.println("suitable = " + suitable);
+        return String.valueOf(suitable);
 	}
 
 	public String get_id() {
