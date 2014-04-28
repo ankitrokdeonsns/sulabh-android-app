@@ -43,9 +43,9 @@ public class UpdateLooActivity extends Activity{
 		placeName = (TextView) findViewById(R.id.addName);
 		placeName.setText(name);
 
-		int rating = loo.getRating();
+		float rating = loo.getRating();
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-		ratingBar.setNumStars(rating);
+		ratingBar.setRating(rating);
 
 		operationalStatus = (RadioGroup) findViewById(R.id.isOperational);
 		setStatus(operationalStatus);
@@ -78,7 +78,7 @@ public class UpdateLooActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				String name = String.valueOf(UpdateLooActivity.this.placeName.getText());
-                int rating = (int) ratingBar.getRating();
+                float rating = ratingBar.getRating();
 
 				int selectedOperational = operationalStatus.getCheckedRadioButtonId();
 				operational = (RadioButton) operationalStatus.findViewById(selectedOperational);

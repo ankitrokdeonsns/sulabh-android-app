@@ -54,7 +54,7 @@ public class AddLooActivity extends Activity{
             @Override
             public void onClick(View v) {
                 String name = String.valueOf(AddLooActivity.this.name.getText());
-                int rating = (int) ratingBar.getRating();
+                float rating = (float) ratingBar.getRating();
 
                 int selectedOperational = isOperational.getCheckedRadioButtonId();
                 operational = (RadioButton) isOperational.findViewById(selectedOperational);
