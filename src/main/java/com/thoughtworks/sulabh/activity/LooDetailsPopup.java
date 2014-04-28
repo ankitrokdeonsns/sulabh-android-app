@@ -21,8 +21,6 @@ public class LooDetailsPopup {
         this.updateLooActivity = updateLooActivity;
     }
 
-
-
     protected void onChangeSelectedCategories() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -37,14 +35,12 @@ public class LooDetailsPopup {
             suitableFor = addLooActivity.getSuitableFor();
             suitableOptions = addLooActivity.getSuitableOptions();
             selectedCategories = addLooActivity.getSelectedCategories();
-
         }
         else {
             suitableFor = updateLooActivity.getSuitableFor();
             suitableOptions = updateLooActivity.getSuitableOptions();
             selectedCategories = updateLooActivity.getSelectedCategories();
         }
-
 
         boolean[] checkedCategories = new boolean[suitableOptions.length];
         int count = suitableOptions.length;

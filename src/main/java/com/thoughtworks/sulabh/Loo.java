@@ -8,7 +8,7 @@ public class Loo implements Serializable{
 	private String _id;
 	private String name;
 	private double coordinates[];
-	private int rating;
+	private float rating;
 	private Boolean operational;
 	private Boolean hygienic;
 	private Boolean free;
@@ -17,7 +17,7 @@ public class Loo implements Serializable{
 
 	private Loo() {}
 
-	public Loo(String[] suitableFor, String type, Boolean free, Boolean hygienic, Boolean operational, int rating, double[] coordinates, String name) {
+	public Loo(String[] suitableFor, String type, Boolean free, Boolean hygienic, Boolean operational, float rating, double[] coordinates, String name) {
 
 		this.suitableFor = suitableFor;
 		this.type = type;
@@ -37,7 +37,7 @@ public class Loo implements Serializable{
 		return coordinates;
 	}
 
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
 

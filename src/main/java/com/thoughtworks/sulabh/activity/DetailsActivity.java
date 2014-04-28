@@ -28,9 +28,9 @@ public class DetailsActivity extends Activity{
 		TextView placeName = (TextView) findViewById(R.id.placeName);
 		placeName.setText(name);
 
-		int rating = loo.getRating();
+		float rating = loo.getRating();
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-		ratingBar.setNumStars(rating);
+		ratingBar.setRating(rating);
 
 		String isOperational = String.valueOf(loo.getOperational());
 		TextView operational = (TextView) findViewById(R.id.isOperational);

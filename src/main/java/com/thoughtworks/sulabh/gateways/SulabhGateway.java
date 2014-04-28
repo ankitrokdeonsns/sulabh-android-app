@@ -94,7 +94,7 @@ public class SulabhGateway {
 		params.add(new BasicNameValuePair("name", loo.getName()));
 		params.add(new BasicNameValuePair("latitude", Double.toString(loo.getCoordinates()[0])));
 		params.add(new BasicNameValuePair("longitude", Double.toString(loo.getCoordinates()[1])));
-		params.add(new BasicNameValuePair("rating", Integer.toString(loo.getRating())));
+		params.add(new BasicNameValuePair("rating", Float.toString(loo.getRating())));
 		params.add(new BasicNameValuePair("operational", loo.getOperational().toString()));
 		params.add(new BasicNameValuePair("hygienic", loo.getHygienic().toString()));
 		params.add(new BasicNameValuePair("free", loo.getFree().toString()));

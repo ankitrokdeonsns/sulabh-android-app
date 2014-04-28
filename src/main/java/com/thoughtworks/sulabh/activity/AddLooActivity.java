@@ -54,7 +54,7 @@ public class AddLooActivity extends Activity{
             @Override
             public void onClick(View v) {
                 String name = String.valueOf(AddLooActivity.this.name.getText());
-                int rating = (int) ratingBar.getRating();
+                float rating = (float) ratingBar.getRating();
 
                 int selectedOperational = isOperational.getCheckedRadioButtonId();
                 operational = (RadioButton) isOperational.findViewById(selectedOperational);
@@ -80,6 +80,7 @@ public class AddLooActivity extends Activity{
                     Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
                     intent.putExtra("toastMessage", "Added Successfully");
                     intent.putExtra("isPressed",true);
+	                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
