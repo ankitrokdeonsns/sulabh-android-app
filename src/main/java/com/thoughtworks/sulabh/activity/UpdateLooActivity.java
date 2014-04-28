@@ -103,6 +103,7 @@ public class UpdateLooActivity extends Activity{
 					Intent intent = new Intent(UpdateLooActivity.this, LaunchActivity.class);
 					intent.putExtra("toastMessage", "Updated Successfully");
 					intent.putExtra("isPressed", true);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					startActivity(intent);
 					finish();
 				}
