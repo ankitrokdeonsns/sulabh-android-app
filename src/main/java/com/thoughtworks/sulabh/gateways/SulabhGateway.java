@@ -63,7 +63,7 @@ public class SulabhGateway {
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params);
 			post.setEntity(ent);
 			HttpResponse responsePOST = client.execute(post);
-			HttpEntity resEntity = responsePOST.getEntity();
+            HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
 				String responseString = EntityUtils.toString(resEntity);
 				System.out.println("RESPONSE = "+ responseString);
@@ -85,7 +85,7 @@ public class SulabhGateway {
 	}
 
 	public boolean updateLoo(Loo loo) {
-		String url = "http://10.12.124.93:3000/update";
+        String url = "http://10.12.124.93:3000/update";
 		return getResponse(loo, url);
 	}
 

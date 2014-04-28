@@ -1,8 +1,6 @@
 package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 
 public class AddLooActivity extends Activity{
 
+    private final LooDetailsPopup looDetailsPopup = new LooDetailsPopup(this);
     private Loo newLoo;
     private EditText name;
     private RatingBar ratingBar;
@@ -43,11 +42,10 @@ public class AddLooActivity extends Activity{
 
         kind = (Spinner) findViewById(R.id.type);
         suitableFor = (Button) findViewById(R.id.suitableTo);
-
         suitableFor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSelectCategoriesDialog();
+                looDetailsPopup.showSelectCategoriesDialog();
             }
         });
 
@@ -89,39 +87,15 @@ public class AddLooActivity extends Activity{
         });
     }
 
-    protected void onChangeSelectedCategories() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for(CharSequence category : selectedCategories)
-            stringBuilder.append(category + ",");
-
-        suitableFor.setText(stringBuilder.toString());
+    public ArrayList<CharSequence> getSelectedCategories() {
+        return selectedCategories;
     }
 
-    protected void showSelectCategoriesDialog() {
-        boolean[] checkedCategories = new boolean[suitableOptions.length];
-        int count = suitableOptions.length;
+    public Button getSuitableFor() {
+        return suitableFor;
+    }
 
-        for(int i = 0; i < count; i++)
-            checkedCategories[i] = selectedCategories.contains(suitableOptions[i]);
-
-        DialogInterface.OnMultiChoiceClickListener categoriesDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if(isChecked)
-                    selectedCategories.add(suitableOptions[which]);
-                else
-                    selectedCategories.remove(suitableOptions[which]);
-
-                onChangeSelectedCategories();
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Category");
-        builder.setMultiChoiceItems(suitableOptions, checkedCategories, categoriesDialogListener);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    public CharSequence[] getSuitableOptions() {
+        return suitableOptions;
     }
 }

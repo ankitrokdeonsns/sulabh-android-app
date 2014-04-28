@@ -9,6 +9,8 @@ import com.example.R;
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 
+import java.util.ArrayList;
+
 public class UpdateLooActivity extends Activity{
 	private Loo loo;
 	private TextView placeName;
@@ -23,8 +25,11 @@ public class UpdateLooActivity extends Activity{
 	private Spinner kind;
 	private Button suitableFor;
 	private Loo newLoo;
+    private LooDetailsPopup looDetailsPopup = new LooDetailsPopup(this);
+    private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
+    protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_loo);
@@ -60,13 +65,20 @@ public class UpdateLooActivity extends Activity{
 		kind = (Spinner) findViewById(R.id.type);
 		suitableFor = (Button) findViewById(R.id.suitableTo);
 
+        suitableFor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                looDetailsPopup.showSelectCategoriesDialog();
+            }
+        });
+
 		submit = (Button) findViewById(R.id.submit);
 		submit.setText("Update");
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String name = String.valueOf(UpdateLooActivity.this.placeName.getText());
-				int rating = (int) ratingBar.getRating();
+                int rating = (int) ratingBar.getRating();
 
 				int selectedOperational = operationalStatus.getCheckedRadioButtonId();
 				operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
@@ -84,8 +96,7 @@ public class UpdateLooActivity extends Activity{
                 String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
                 String[] suitableCategories = suitableFor.split(",");
 				double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
-
-				newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
+                newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
 
 				boolean isAdded = new SulabhGateway().updateLoo(newLoo);
 				if (isAdded) {
@@ -105,4 +116,16 @@ public class UpdateLooActivity extends Activity{
 		else
 			operationalStatus.findViewById(R.id.operationalNo).performClick();
 	}
+
+    public CharSequence[] getSuitableOptions() {
+        return suitableOptions;
+    }
+
+    public ArrayList<CharSequence> getSelectedCategories() {
+        return selectedCategories;
+    }
+
+    public Button getSuitableFor() {
+        return suitableFor;
+    }
 }
