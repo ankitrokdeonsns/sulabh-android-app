@@ -39,6 +39,7 @@ public class RatingActivity extends Activity {
 			    new SulabhGateway().rate(loo);
 			    Intent intent = new Intent(RatingActivity.this, DetailsActivity.class);
 			    intent.putExtra("Loo",loo);
+			    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			    Toast.makeText(getApplicationContext(), "Rated Successfully", Toast.LENGTH_LONG).show();
 			    startActivity(intent);
 			    finish();

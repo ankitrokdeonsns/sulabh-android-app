@@ -73,7 +73,7 @@ public class DetailsActivity extends Activity{
         Intent intent = new Intent(DetailsActivity.this,RatingActivity.class);
 	    intent.putExtra("Loo", loo);
         startActivity(intent);
-	    finish();
+	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return true;
     }
 
