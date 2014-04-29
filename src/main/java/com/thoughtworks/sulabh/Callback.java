@@ -1,6 +1,4 @@
-package com.thoughtworks.sulabh.activity;
-
-import com.thoughtworks.sulabh.Loo;
+package com.thoughtworks.sulabh;
 
 import java.io.IOException;
 import java.util.List;

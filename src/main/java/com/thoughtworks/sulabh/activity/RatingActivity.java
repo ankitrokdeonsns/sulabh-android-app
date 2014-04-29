@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import com.example.R;
 
-public class RatingBarView extends Activity {
+public class RatingActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
