@@ -1,6 +1,8 @@
 package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -63,11 +65,21 @@ public class DetailsActivity extends Activity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(DetailsActivity.this, UpdateLooActivity.class);
-		intent.putExtra("Loo",loo);
-		startActivity(intent);
-		finish();
-		return true;
+        System.out.println(item.getTitle() +"***************");
+        if(item.getTitle().equals("edit")) {
+            System.out.println("********************* " + item.getTitle());
+            Intent intent = new Intent(DetailsActivity.this, UpdateLooActivity.class);
+            intent.putExtra("Loo", loo);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        System.out.println("********************* " + item.getTitle());
+        Intent intent = new Intent(DetailsActivity.this,RatingBarView.class);
+        startActivity(intent);
+        return true;
+
 	}
 
 	public String mapValues(String field) {

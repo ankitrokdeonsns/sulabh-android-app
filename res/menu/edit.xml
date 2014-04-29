@@ -2,8 +2,11 @@
 
     <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item android:id="@+id/edit"
+    <item android:id="@+id/rate_us"
+          android:title="rate it"
+          android:showAsAction="always"/>
+    <item android:id="@+id/edit"
               android:icon="@drawable/edit"
               android:title="edit"
-                android:showAsAction="always"/>
+              android:showAsAction="always"/>
     </menu>
