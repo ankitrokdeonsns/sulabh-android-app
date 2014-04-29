@@ -1,14 +1,16 @@
 package com.thoughtworks.sulabh;
 
 import com.google.android.gms.maps.model.LatLng;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Loo implements Serializable{
 	private String _id;
 	private String name;
 	private double coordinates[];
-	private float rating;
+	private Rating rating;
 	private Boolean operational;
 	private Boolean hygienic;
 	private Boolean free;
@@ -24,7 +26,7 @@ public class Loo implements Serializable{
 		this.free = free;
 		this.hygienic = hygienic;
 		this.operational = operational;
-		this.rating = rating;
+		this.rating = new Rating(rating, 1);
 		this.coordinates = coordinates;
 		this.name = name;
 	}
@@ -38,7 +40,14 @@ public class Loo implements Serializable{
 	}
 
 	public float getRating() {
-		return rating;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			rating = mapper.readValue(String.valueOf(rating), Rating.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return rating.sumOfRatings / rating.numOfRatings;
 	}
 
 	public Boolean getOperational() {
@@ -59,11 +68,8 @@ public class Loo implements Serializable{
 
 	public String getSuitableFor() {
 		StringBuilder suitable = new StringBuilder();
-		for (String s : suitableFor) {
-            System.out.println("s = " + s);
-            suitable.append(s + "\n");
-        }
-        System.out.println("suitable = " + suitable);
+		for (String s : suitableFor)
+			suitable.append(s).append("\n");
         return String.valueOf(suitable);
 	}
 

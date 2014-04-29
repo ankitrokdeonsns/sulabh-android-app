@@ -30,7 +30,7 @@ public class SulabhGateway {
 
 	public List<Loo> getLoos(double latitude, double longitude, int radius) {
 		try {
-			String url = "http://10.12.124.93:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
+			String url = "http://10.12.124.32:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
 			System.out.println("url = " + url);
 			HttpResponse response = httpclient.execute(new HttpGet(url));
 			StatusLine statusLine = response.getStatusLine();
@@ -80,12 +80,12 @@ public class SulabhGateway {
 	}
 
 	public boolean addLoo(Loo loo) {
-		String url = "http://10.12.124.93:3000/add";
+		String url = "http://10.12.124.32:3000/add";
 		return getResponse(loo, url);
 	}
 
 	public boolean updateLoo(Loo loo) {
-        String url = "http://10.12.124.93:3000/update";
+        String url = "http://10.12.124.32:3000/update";
 		return getResponse(loo, url);
 	}
 

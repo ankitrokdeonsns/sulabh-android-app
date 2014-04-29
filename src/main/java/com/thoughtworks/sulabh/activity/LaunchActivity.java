@@ -138,7 +138,7 @@ public class LaunchActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
-		intent.putExtra("coordinates",new double[]{currentLocation.getLatitude(), currentLocation.getLongitude()});
+		intent.putExtra("coordinates", new double[]{currentLocation.getLatitude(), currentLocation.getLongitude()});
 		startActivity(intent);
 		return true;
 	}
