@@ -40,6 +40,10 @@ public class AddLooActivity extends Activity{
         final RadioGroup isHygienic = (RadioGroup) findViewById(R.id.isHygienic);
         final RadioGroup isFree = (RadioGroup) findViewById(R.id.isFree);
 
+        isOperational.check(R.id.operationalYes);
+        isHygienic.check(R.id.hygienicYes);
+        isFree.check(R.id.freeYes);
+
         kind = (Spinner) findViewById(R.id.type);
         suitableFor = (Button) findViewById(R.id.suitableTo);
         suitableFor.setOnClickListener(new View.OnClickListener() {
@@ -53,39 +57,52 @@ public class AddLooActivity extends Activity{
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = String.valueOf(AddLooActivity.this.name.getText());
-                float rating = (float) ratingBar.getRating();
-
                 int selectedOperational = isOperational.getCheckedRadioButtonId();
                 operational = (RadioButton) isOperational.findViewById(selectedOperational);
-                boolean isOperationalChecked = operational.isChecked();
-
                 int selectedHygienic = isHygienic.getCheckedRadioButtonId();
                 hygienic = (RadioButton) isHygienic.findViewById(selectedHygienic);
-                boolean isHygienicChecked = hygienic.isChecked();
-
                 int selectedFree = isFree.getCheckedRadioButtonId();
                 free = (RadioButton) isFree.findViewById(selectedFree);
-                boolean isFreeChecked = free.isChecked();
 
-                String kind = AddLooActivity.this.kind.getSelectedItem().toString();
-                String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
-                String[] suitableCategories = suitableFor.split(",");
-                double[] location = {coordinates[0], coordinates[1]};
+                if (!isDataValid())
+                    Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
 
-                newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
+                else {
+                    String name = String.valueOf(AddLooActivity.this.name.getText());
+                    float rating = (float) ratingBar.getRating();
+                    boolean isOperationalChecked = operational.isChecked();
+                    boolean isHygienicChecked = hygienic.isChecked();
+                    boolean isFreeChecked = free.isChecked();
+                    String kind = AddLooActivity.this.kind.getSelectedItem().toString();
+                    String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
+                    String[] suitableCategories = suitableFor.split(",");
+                    double[] location = {coordinates[0], coordinates[1]};
 
-                boolean isAdded = new SulabhGateway().addLoo(newLoo);
-                if (isAdded) {
-                    Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
-                    intent.putExtra("toastMessage", "Added Successfully");
-                    intent.putExtra("isPressed",true);
-	                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
+
+                    boolean isAdded = new SulabhGateway().addLoo(newLoo);
+                    if (isAdded) {
+                        Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
+                        intent.putExtra("toastMessage", "Added Successfully");
+                        intent.putExtra("isPressed", true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
+    }
+
+    private boolean isDataValid(){
+        if(!name.getText().toString().trim().equals("") &&
+                operational.isChecked() &&
+                hygienic.isChecked() &&
+                free.isChecked() &&
+                !kind.getSelectedItem().toString().equals("") &&
+                !suitableFor.getText().toString().equals("None selected !"))
+            return true;
+        return false;
     }
 
     public ArrayList<CharSequence> getSelectedCategories() {
