@@ -22,7 +22,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.thoughtworks.sulabh.Callback;
 import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.handler.ResHandler;
 import org.json.JSONObject;
 
 import java.io.IOException;

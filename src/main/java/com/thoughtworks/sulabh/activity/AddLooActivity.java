@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.*;
 import com.example.R;
 import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.LooDetailsPopup;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 
 import java.util.ArrayList;

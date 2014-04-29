@@ -1,8 +1,6 @@
 package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -73,7 +71,7 @@ public class DetailsActivity extends Activity{
             return true;
         }
 
-        Intent intent = new Intent(DetailsActivity.this,RatingBarView.class);
+        Intent intent = new Intent(DetailsActivity.this,RatingActivity.class);
         startActivity(intent);
         return true;
     }

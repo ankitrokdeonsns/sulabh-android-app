@@ -25,7 +25,7 @@
         <activity android:name="com.thoughtworks.sulabh.activity.UpdateLooActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.thoughtworks.sulabh.activity.RatingBarView"
+        <activity android:name="com.thoughtworks.sulabh.activity.RatingActivity"
                   android:theme="@android:style/Theme.Dialog"
                   android:label="Rate it"/>
 

@@ -1,8 +1,10 @@
-package com.thoughtworks.sulabh.activity;
+package com.thoughtworks.sulabh;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Button;
+import com.thoughtworks.sulabh.activity.AddLooActivity;
+import com.thoughtworks.sulabh.activity.UpdateLooActivity;
 
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ public class LooDetailsPopup {
         suitableFor.setText(selectedCategories.get(0).toString()+" ...");
     }
 
-    protected void showSelectCategoriesDialog() {
+    public void showSelectCategoriesDialog() {
         if (addLooActivity!=null) {
             suitableFor = addLooActivity.getSuitableFor();
             suitableOptions = addLooActivity.getSuitableOptions();
