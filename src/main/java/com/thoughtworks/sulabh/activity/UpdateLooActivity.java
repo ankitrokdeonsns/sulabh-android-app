@@ -29,6 +29,7 @@ public class UpdateLooActivity extends Activity{
     private LooDetailsPopup looDetailsPopup = new LooDetailsPopup(this);
     private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
     protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
+    private String name;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,9 @@ public class UpdateLooActivity extends Activity{
 
 		loo = (Loo) extras.getSerializable("Loo");
 
-		String name = loo.getName();
+		String previousName = loo.getName();
 		placeName = (TextView) findViewById(R.id.addName);
-		placeName.setText(name);
+		placeName.setText(previousName);
 
 		float rating = loo.getRating();
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -78,41 +79,54 @@ public class UpdateLooActivity extends Activity{
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String name = String.valueOf(UpdateLooActivity.this.placeName.getText());
-                float rating = ratingBar.getRating();
+                int selectedOperational = operationalStatus.getCheckedRadioButtonId();
+                operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
+                int selectedHygienic = hygienicStatus.getCheckedRadioButtonId();
+                hygienic = (RadioButton) hygienicStatus.findViewById(selectedHygienic);
+                int selectedFree = freeStatus.getCheckedRadioButtonId();
+                free = (RadioButton) freeStatus.findViewById(selectedFree);
 
-				int selectedOperational = operationalStatus.getCheckedRadioButtonId();
-				operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
-				boolean isOperationalChecked = operational.isChecked();
+                if (!isDataValid())
+                    Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
+                else {
+                    name = String.valueOf(UpdateLooActivity.this.placeName.getText());
+                    float rating = ratingBar.getRating();
+                    boolean isOperationalChecked = operational.isChecked();
+                    boolean isHygienicChecked = hygienic.isChecked();
+                    boolean isFreeChecked = free.isChecked();
 
-				int selectedHygienic = hygienicStatus.getCheckedRadioButtonId();
-				hygienic = (RadioButton) hygienicStatus.findViewById(selectedHygienic);
-				boolean isHygienicChecked = hygienic.isChecked();
+                    String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
+                    String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
+                    String[] suitableCategories = suitableFor.split(",");
+                    double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
+                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
 
-				int selectedFree = freeStatus.getCheckedRadioButtonId();
-				free = (RadioButton) freeStatus.findViewById(selectedFree);
-				boolean isFreeChecked = free.isChecked();
-
-				String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
-                String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
-                String[] suitableCategories = suitableFor.split(",");
-				double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
-                newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
-
-				boolean isAdded = new SulabhGateway().updateLoo(newLoo);
-				if (isAdded) {
-					Intent intent = new Intent(UpdateLooActivity.this, LaunchActivity.class);
-					intent.putExtra("toastMessage", "Updated Successfully");
-					intent.putExtra("isPressed", true);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-					startActivity(intent);
-					finish();
-				}
+                    boolean isAdded = new SulabhGateway().updateLoo(newLoo);
+                    if (isAdded) {
+                        Intent intent = new Intent(UpdateLooActivity.this, LaunchActivity.class);
+                        intent.putExtra("toastMessage", "Updated Successfully");
+                        intent.putExtra("isPressed", true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
 			}
 		});
 	}
 
-	private void setStatus(RadioGroup operationalStatus) {
+    private boolean isDataValid(){
+        if(!placeName.getText().toString().trim().equals("") &&
+                operational.isChecked() &&
+                hygienic.isChecked() &&
+                free.isChecked() &&
+                !kind.getSelectedItem().toString().equals("") &&
+                !suitableFor.getText().toString().equals("None selected !"))
+            return true;
+        return false;
+    }
+
+    private void setStatus(RadioGroup operationalStatus) {
 		if (loo.getOperational())
 			operationalStatus.findViewById(R.id.operationalYes).performClick();
 		else
