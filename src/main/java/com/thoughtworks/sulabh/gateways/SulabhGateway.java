@@ -89,12 +89,17 @@ public class SulabhGateway {
 		return getResponse(loo, url);
 	}
 
+	public boolean rate(Loo loo) {
+		String url = "http://10.12.124.32:3000/rate";
+		return getResponse(loo, url);
+	}
+
 	private List<NameValuePair> getNameValuePairs(Loo loo) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("name", loo.getName()));
 		params.add(new BasicNameValuePair("latitude", Double.toString(loo.getCoordinates()[0])));
 		params.add(new BasicNameValuePair("longitude", Double.toString(loo.getCoordinates()[1])));
-		params.add(new BasicNameValuePair("rating", Float.toString(loo.getRating())));
+		params.add(new BasicNameValuePair("rating", Float.toString(loo.getActualRating())));
 		params.add(new BasicNameValuePair("operational", loo.getOperational().toString()));
 		params.add(new BasicNameValuePair("hygienic", loo.getHygienic().toString()));
 		params.add(new BasicNameValuePair("free", loo.getFree().toString()));

@@ -39,7 +39,7 @@ public class Loo implements Serializable{
 		return coordinates;
 	}
 
-	public float getRating() {
+	public float getActualRating() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			rating = mapper.readValue(String.valueOf(rating), Rating.class);
@@ -84,5 +84,13 @@ public class Loo implements Serializable{
 	private boolean areDoublesEqual(double a, double b) {
 		double delta = 0.0000005;
 		return Math.abs(a - b) < delta;
+	}
+
+	public Rating getRating(){
+		return this.rating;
+	}
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
 	}
 }

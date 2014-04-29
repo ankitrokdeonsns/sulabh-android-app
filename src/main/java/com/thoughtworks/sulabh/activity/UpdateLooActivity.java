@@ -45,7 +45,7 @@ public class UpdateLooActivity extends Activity{
 		placeName = (TextView) findViewById(R.id.addName);
 		placeName.setText(previousName);
 
-		float rating = loo.getRating();
+		float rating = loo.getActualRating();
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		ratingBar.setRating(rating);
 

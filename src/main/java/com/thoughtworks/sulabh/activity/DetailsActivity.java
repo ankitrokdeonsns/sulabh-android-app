@@ -28,7 +28,7 @@ public class DetailsActivity extends Activity{
         TextView placeName = (TextView) findViewById(R.id.placeName);
         placeName.setText(name);
 
-        float rating = loo.getRating();
+        float rating = loo.getActualRating();
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         ratingBar.setRating(rating);
 
@@ -70,9 +70,10 @@ public class DetailsActivity extends Activity{
             finish();
             return true;
         }
-
         Intent intent = new Intent(DetailsActivity.this,RatingActivity.class);
+	    intent.putExtra("Loo", loo);
         startActivity(intent);
+	    finish();
         return true;
     }
 
