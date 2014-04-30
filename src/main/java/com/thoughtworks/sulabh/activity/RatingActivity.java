@@ -13,7 +13,10 @@ import com.thoughtworks.sulabh.Rating;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 
 public class RatingActivity extends Activity {
-    @Override
+
+	private Loo loo;
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ratingbar);
@@ -21,24 +24,23 @@ public class RatingActivity extends Activity {
 	    Intent intent = getIntent();
 	    Bundle extras = intent.getExtras();
 
-	    final Loo loo = (Loo) extras.getSerializable("Loo");
-	    final RatingBar ratingBar = (RatingBar)findViewById(R.id.ratingBar);
-
-	    float rating = ratingBar.getRating();
-	    float sumOfRatings = loo.getRating().getSumOfRatings() + rating;
-	    int numOfRatings = loo.getRating().getNumOfRatings() + 1;
-
-	    Rating updatedRating = new Rating(sumOfRatings, numOfRatings);
-	    loo.setRating(updatedRating);
-
-	    Button submitRating = (Button) findViewById(R.id.submit);
+		loo = (Loo) extras.getSerializable("Loo");
+	    Button submitRating = (Button) findViewById(R.id.popupSubmit);
 
 	    submitRating.setOnClickListener(new View.OnClickListener() {
 		    @Override
 		    public void onClick(View v) {
-			    new SulabhGateway().rate(loo);
-			    Intent intent = new Intent(RatingActivity.this, DetailsActivity.class);
-			    intent.putExtra("Loo",loo);
+			    final RatingBar ratingBar = (RatingBar)findViewById(R.id.popupRating);
+			    float rating = ratingBar.getRating();
+			    Rating updatedRating = new Rating(rating, 1);
+			    loo.setRating(updatedRating);
+
+				Loo newLoo = new Loo(new String[]{loo.getSuitableFor()}, loo.getType(), loo.getFree(),
+						loo.getHygienic(), loo.getOperational(), rating, loo.getCoordinates(), loo.getName());
+
+			    new SulabhGateway().rate(newLoo);
+			    Intent intent = new Intent(RatingActivity.this, LaunchActivity.class);
+			    intent.putExtra("Loo", newLoo);
 			    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			    Toast.makeText(getApplicationContext(), "Rated Successfully", Toast.LENGTH_LONG).show();
 			    startActivity(intent);
