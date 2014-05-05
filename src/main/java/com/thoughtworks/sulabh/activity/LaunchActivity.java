@@ -6,8 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -35,9 +35,10 @@ public class LaunchActivity extends Activity {
 	private LocationManager locationManager;
 	private LatLng markerPosition;
 	private GoogleMap map;
-	Loo selectedLoo;
+	private Loo selectedLoo;
 	private ProgressDialog progressDialog;
-	private Location currentLocation;
+	private double latitude;
+	private double longitude;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,24 +53,42 @@ public class LaunchActivity extends Activity {
 		}
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		String provider = locationManager.getBestProvider(new Criteria(), true);
-		currentLocation = locationManager.getLastKnownLocation(provider);
-		map.setMyLocationEnabled(true);
-		if (map != null) {
-			LatLng myPosition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+		if (map == null) {
+			Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+		}
+		else {
 			progressDialog = new ProgressDialog(LaunchActivity.this);
 			progressDialog.setCancelable(true);
 			progressDialog.setMessage("Loading...");
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			progressDialog.setProgress(0);
 			progressDialog.show();
-			new ResHandler(callback(), myPosition).execute();
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
-			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+
 		}
+		// Register the listener with the Location Manager to receive location updates
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		map.setMyLocationEnabled(true);
 	}
+
+	LocationListener locationListener = new LocationListener() {
+		public void onLocationChanged(Location location) {
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+			LatLng myPosition = new LatLng(latitude, longitude);
+			new ResHandler(callback(), myPosition).execute();
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+		public void onProviderEnabled(String provider) {}
+
+		public void onProviderDisabled(String provider) {}
+	};
 
 	private void populateMarkers(GoogleMap map, final List<Loo> loos) {
 		for (final Loo loo : loos) {
@@ -140,7 +159,7 @@ public class LaunchActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
-		intent.putExtra("coordinates", new double[]{currentLocation.getLatitude(), currentLocation.getLongitude()});
+		intent.putExtra("coordinates", new double[]{latitude, longitude});
 		startActivity(intent);
 		return true;
 	}
