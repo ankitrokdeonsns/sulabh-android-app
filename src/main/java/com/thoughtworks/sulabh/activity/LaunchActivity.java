@@ -11,9 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.provider.Settings;
 import android.widget.Toast;
 import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,15 +28,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-public class LaunchActivity extends Activity {
+import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+
+public class LaunchActivity extends Activity implements OnMapLongClickListener{
 
 	private LocationManager locationManager;
-	private LatLng markerPosition;
 	private GoogleMap map;
 	private Loo selectedLoo;
 	private ProgressDialog progressDialog;
-	private double latitude;
-	private double longitude;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +53,8 @@ public class LaunchActivity extends Activity {
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-		if (map == null) {
+		if (map == null)
 			Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
-		}
 		else {
 			progressDialog = new ProgressDialog(LaunchActivity.this);
 			progressDialog.setCancelable(true);
@@ -71,12 +67,13 @@ public class LaunchActivity extends Activity {
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		map.setMyLocationEnabled(true);
+		map.setOnMapLongClickListener(this);
 	}
 
 	LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
+			double latitude = location.getLatitude();
+			double longitude = location.getLongitude();
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 			LatLng myPosition = new LatLng(latitude, longitude);
@@ -92,7 +89,7 @@ public class LaunchActivity extends Activity {
 
 	private void populateMarkers(GoogleMap map, final List<Loo> loos) {
 		for (final Loo loo : loos) {
-			markerPosition = new LatLng(loo.getCoordinates()[0],loo.getCoordinates()[1]);
+			LatLng markerPosition = new LatLng(loo.getCoordinates()[0], loo.getCoordinates()[1]);
 			map.addMarker(new MarkerOptions().position(markerPosition));
 		}
 		map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -126,23 +123,26 @@ public class LaunchActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-			buildAlertMessageNoGps();
+			int EXIT = 0;
+			Intent yesAction = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			alertMessageBuilder("Your GPS seems to be disabled, do you want to enable it?", yesAction, EXIT);
 		}
 	}
 
-	private void buildAlertMessageNoGps() {
+	private void alertMessageBuilder(String message, final Intent yesAction, final int status) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+		builder.setMessage(message)
 				.setCancelable(false)
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-						startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+						startActivity(yesAction);
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
 						dialog.cancel();
-						System.exit(0);
+						if(status == 0)
+							System.exit(0);
 					}
 				});
 		final AlertDialog alert = builder.create();
@@ -150,17 +150,9 @@ public class LaunchActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_activity_actions, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public void onMapLongClick(LatLng latLng) {
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
-		intent.putExtra("coordinates", new double[]{latitude, longitude});
-		startActivity(intent);
-		return true;
+		intent.putExtra("coordinates", new double[]{latLng.latitude, latLng.longitude});
+		alertMessageBuilder("Do you want to add a toilet?", intent, 1);
 	}
 }
