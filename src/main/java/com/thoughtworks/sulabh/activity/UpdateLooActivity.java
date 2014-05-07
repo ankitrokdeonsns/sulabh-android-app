@@ -8,8 +8,10 @@ import android.widget.*;
 import com.example.R;
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.LooDetailsPopup;
-import com.thoughtworks.sulabh.gateways.SulabhGateway;
+import com.thoughtworks.sulabh.UpdateCallback;
+import com.thoughtworks.sulabh.handler.UpdateResponseHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UpdateLooActivity extends Activity{
@@ -100,16 +102,7 @@ public class UpdateLooActivity extends Activity{
                     String[] suitableCategories = suitableFor.split(",");
                     double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
                     newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
-
-                    boolean isAdded = new SulabhGateway().updateLoo(newLoo);
-                    if (isAdded) {
-                        Intent intent = new Intent(UpdateLooActivity.this, LaunchActivity.class);
-                        intent.putExtra("toastMessage", "Updated Successfully");
-                        intent.putExtra("isPressed", true);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
+                    new UpdateResponseHandler(callback(), newLoo).execute();
                 }
 			}
 		});
@@ -133,7 +126,23 @@ public class UpdateLooActivity extends Activity{
 			operationalStatus.findViewById(R.id.operationalNo).performClick();
 	}
 
-    public CharSequence[] getSuitableOptions() {
+	private UpdateCallback<Boolean> callback(){
+		return new UpdateCallback<Boolean>() {
+			@Override
+			public void execute(Boolean isUpdated) throws IOException {
+				if (isUpdated) {
+					Intent intent = new Intent(UpdateLooActivity.this, LaunchActivity.class);
+					intent.putExtra("toastMessage", "Updated Successfully");
+					intent.putExtra("isPressed", true);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					startActivity(intent);
+					finish();
+				}
+			}
+		};
+	}
+
+	public CharSequence[] getSuitableOptions() {
         return suitableOptions;
     }
 
