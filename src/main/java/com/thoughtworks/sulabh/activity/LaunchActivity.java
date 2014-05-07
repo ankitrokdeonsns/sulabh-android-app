@@ -6,26 +6,19 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.widget.Toast;
 import com.example.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.thoughtworks.sulabh.Callback;
 import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.handler.ResHandler;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -62,61 +55,9 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			progressDialog.setProgress(0);
 			progressDialog.show();
-
 		}
 		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-		map.setMyLocationEnabled(true);
-		map.setOnMapLongClickListener(this);
-	}
-
-	LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-			double latitude = location.getLatitude();
-			double longitude = location.getLongitude();
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-			LatLng myPosition = new LatLng(latitude, longitude);
-			new ResHandler(callback(), myPosition).execute();
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-		public void onProviderEnabled(String provider) {}
-
-		public void onProviderDisabled(String provider) {}
-	};
-
-	private void populateMarkers(GoogleMap map, final List<Loo> loos) {
-		for (final Loo loo : loos) {
-			LatLng markerPosition = new LatLng(loo.getCoordinates()[0], loo.getCoordinates()[1]);
-			map.addMarker(new MarkerOptions().position(markerPosition));
-		}
-		map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-			@Override
-			public boolean onMarkerClick(Marker marker) {
-				for (Loo loo : loos) {
-					if(loo.isSamePositionAs(marker.getPosition())){
-						selectedLoo = loo;
-					}
-				}
-				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-				intent.putExtra("Loo", selectedLoo);
-				startActivity(intent);
-				return true;
-			}
-		});
-
-	}
-
-	private Callback<JSONObject> callback(){
-		return new Callback<JSONObject>() {
-			@Override
-			public void execute(List<Loo> loos) throws IOException {
-				populateMarkers(map, loos);
-				progressDialog.dismiss();
-			}
-		};
+		new MapDisplayHandler(map, this, progressDialog).getLocation();
 	}
 
 	@Override
@@ -154,5 +95,34 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 		Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
 		intent.putExtra("coordinates", new double[]{latLng.latitude, latLng.longitude});
 		alertMessageBuilder("Do you want to add a toilet?", intent, 1);
+	}
+
+	public void populateMarkers(GoogleMap map, final List<Loo> loos) {
+		for (final Loo loo : loos) {
+			LatLng markerPosition = new LatLng(loo.getCoordinates()[0], loo.getCoordinates()[1]);
+			map.addMarker(new MarkerOptions().position(markerPosition));
+		}
+		map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+			@Override
+			public boolean onMarkerClick(Marker marker) {
+				for (Loo loo : loos) {
+					if(loo.isSamePositionAs(marker.getPosition())){
+						selectedLoo = loo;
+					}
+				}
+				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+				intent.putExtra("Loo", selectedLoo);
+				startActivity(intent);
+				return true;
+			}
+		});
+	}
+
+	public LocationManager getLocationManager() {
+		return locationManager;
+	}
+
+	public GoogleMap getMap() {
+		return map;
 	}
 }
