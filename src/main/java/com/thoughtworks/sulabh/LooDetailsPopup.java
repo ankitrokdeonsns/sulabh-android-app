@@ -23,9 +23,13 @@ public class LooDetailsPopup {
         this.updateLooActivity = updateLooActivity;
     }
 
-    protected void onChangeSelectedCategories() {
-        suitableFor.setText(selectedCategories.get(0).toString()+" ...");
-    }
+	protected void onChangeSelectedCategories() {
+		StringBuilder categories = new StringBuilder();
+		for (CharSequence selectedCategory : selectedCategories) {
+			categories.append(selectedCategory).append("\n");
+		}
+		suitableFor.setText(categories);
+	}
 
     public void showSelectCategoriesDialog() {
         if (addLooActivity!=null) {
