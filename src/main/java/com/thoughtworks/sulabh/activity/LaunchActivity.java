@@ -43,6 +43,8 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		new MapDisplayHandler(map, this).displayMap();
 	}

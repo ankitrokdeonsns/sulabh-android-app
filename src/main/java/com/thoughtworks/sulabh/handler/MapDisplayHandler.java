@@ -38,7 +38,7 @@ public class MapDisplayHandler {
 			progressDialog.setProgress(0);
 			progressDialog.show();
 		}
-		launchActivity.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		launchActivity.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 10, locationListener);
 		launchActivity.getMap().setMyLocationEnabled(true);
 		launchActivity.getMap().setOnMapLongClickListener(this.launchActivity);
 	}
