@@ -24,7 +24,11 @@ public class LooDetailsPopup {
     }
 
     protected void onChangeSelectedCategories() {
-        suitableFor.setText(selectedCategories.get(0).toString()+" ...");
+        StringBuilder categories = new StringBuilder();
+        for (int i = 0; i < selectedCategories.size(); i++) {
+            categories.append(selectedCategories.get(i)+"\n");
+        }
+        suitableFor.setText(categories);
     }
 
     public void showSelectCategoriesDialog() {

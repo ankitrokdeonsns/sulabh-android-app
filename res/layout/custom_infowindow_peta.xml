@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="4"
+            android:rowCount="20" android:columnOrderPreserved="true" android:padding="0.5dp"
+            android:layout_margin="5dp">
+        <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Name"
+                android:textSize="18dp"
+                android:id="@+id/name" android:layout_column="0"  android:layout_row="0"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text=""
+                android:textSize="18dp"
+                android:id="@+id/looName" android:layout_column="1"  android:layout_row="0"/>
+        <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Rating"
+                android:textSize="18dp"
+                android:id="@+id/rating" android:layout_column="0"  android:layout_row="4"/>
+        <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Holo.Light.RatingBar.Indicator"
+                android:isIndicator="false"
+                android:id="@+id/markerRatingBar" android:layout_gravity="" android:layout_weight="0.09"
+                android:numStars="5" android:rating="5" android:indeterminateOnly="false"
+                android:layout_column="1"  android:layout_row="4" android:layout_columnSpan="1"/>
+        <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Suitable For"
+                android:textSize="18dp"
+                android:id="@+id/suitable"  android:layout_column="0" android:layout_row="17"/>
+
+        <GridLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/suitableTo"
+                android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="5"
+                android:rowCount="1" android:columnOrderPreserved="true" android:padding="0.5dp"
+                android:layout_column="1"  android:layout_row="17"
+                android:layout_margin="5dp">
+
+            <ImageView
+                    android:id="@+id/one"
+                    android:src="@drawable/mensroom"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/two"
+                    android:src="@drawable/womenroom"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/three"
+                    android:src="@drawable/babyroom"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/four"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/five"
+                    android:src="@drawable/img1"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+        </GridLayout>
+        <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="more......"
+                android:textSize="18dp"
+                android:clickable="true"
+                android:textColor="#0000FF"
+                android:id="@+id/more" android:layout_column="1"
+                android:layout_row="18"/>
+    </GridLayout>
+
+
+</LinearLayout>

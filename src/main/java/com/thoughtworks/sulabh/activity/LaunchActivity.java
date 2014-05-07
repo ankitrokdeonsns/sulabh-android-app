@@ -12,7 +12,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +27,7 @@ import com.thoughtworks.sulabh.handler.ResHandler;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -68,6 +70,35 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		map.setMyLocationEnabled(true);
 		map.setOnMapLongClickListener(this);
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            private final View contents = getLayoutInflater().inflate(R.layout.custom_infowindow_peta, null);
+
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                TextView txtTitle = (TextView) contents.findViewById(R.id.looName);
+                RatingBar ratingBar = (RatingBar) contents.findViewById(R.id.markerRatingBar);
+                TextView moreLink = (TextView)contents.findViewById(R.id.more);
+
+                txtTitle.setText(selectedLoo.getName());
+                ratingBar.setRating(selectedLoo.getActualRating());
+
+                return contents;
+            }
+
+        });
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+                intent.putExtra("Loo", selectedLoo);
+                startActivity(intent);
+            }
+        });
 	}
 
 	LocationListener locationListener = new LocationListener() {
@@ -100,9 +131,8 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 						selectedLoo = loo;
 					}
 				}
-				Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-				intent.putExtra("Loo", selectedLoo);
-				startActivity(intent);
+
+                marker.showInfoWindow();
 				return true;
 			}
 		});
