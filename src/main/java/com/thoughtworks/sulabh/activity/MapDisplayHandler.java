@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,13 +22,22 @@ public class MapDisplayHandler {
 	private final LaunchActivity launchActivity;
 	private ProgressDialog progressDialog;
 
-	public MapDisplayHandler(GoogleMap map, LaunchActivity launchActivity, ProgressDialog progressDialog){
+	public MapDisplayHandler(GoogleMap map, LaunchActivity launchActivity){
 		this.map = map;
 		this.launchActivity = launchActivity;
-		this.progressDialog = progressDialog;
 	}
 
-	void getLocation() {
+	void displayMap() {
+		if (map == null)
+			Toast.makeText(launchActivity, "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+		else {
+			progressDialog = new ProgressDialog(launchActivity);
+			progressDialog.setCancelable(true);
+			progressDialog.setMessage("Loading...");
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setProgress(0);
+			progressDialog.show();
+		}
 		launchActivity.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		launchActivity.getMap().setMyLocationEnabled(true);
 		launchActivity.getMap().setOnMapLongClickListener(this.launchActivity);

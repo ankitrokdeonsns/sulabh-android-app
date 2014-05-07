@@ -2,7 +2,6 @@ package com.thoughtworks.sulabh.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,6 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 	private LocationManager locationManager;
 	private GoogleMap map;
 	private Loo selectedLoo;
-	private ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,19 +43,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 		StrictMode.setThreadPolicy(policy);
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-		if (map == null)
-			Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
-		else {
-			progressDialog = new ProgressDialog(LaunchActivity.this);
-			progressDialog.setCancelable(true);
-			progressDialog.setMessage("Loading...");
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setProgress(0);
-			progressDialog.show();
-		}
-		// Register the listener with the Location Manager to receive location updates
-		new MapDisplayHandler(map, this, progressDialog).getLocation();
+		new MapDisplayHandler(map, this).displayMap();
 	}
 
 	@Override
