@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.handler.MapDisplayHandler;
 
 import java.util.List;
 

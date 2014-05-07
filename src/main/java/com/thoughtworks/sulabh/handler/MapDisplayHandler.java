@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh.activity;
+package com.thoughtworks.sulabh.handler;
 
 import android.app.ProgressDialog;
 import android.location.Location;
@@ -11,7 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.thoughtworks.sulabh.Callback;
 import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.handler.ResHandler;
+import com.thoughtworks.sulabh.activity.LaunchActivity;
 import org.json.JSONObject;
 
 import java.io.IOException;
