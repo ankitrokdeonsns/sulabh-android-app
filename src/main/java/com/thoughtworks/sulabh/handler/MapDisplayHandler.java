@@ -27,7 +27,7 @@ public class MapDisplayHandler {
 		this.launchActivity = launchActivity;
 	}
 
-	void displayMap() {
+	public void displayMap() {
 		if (map == null)
 			Toast.makeText(launchActivity, "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
 		else {
@@ -50,7 +50,7 @@ public class MapDisplayHandler {
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 			LatLng myPosition = new LatLng(latitude, longitude);
-			new ResHandler(callback(), myPosition).execute();
+			new ResponseHandler(callback(), myPosition).execute();
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {}

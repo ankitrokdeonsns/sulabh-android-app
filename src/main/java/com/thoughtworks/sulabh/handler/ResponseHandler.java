@@ -10,12 +10,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-public class ResHandler extends AsyncTask<String, String, List<Loo>> {
+public class ResponseHandler extends AsyncTask<String, String, List<Loo>> {
 
 	private Callback<JSONObject> callback;
 	private LatLng myPosition;
 
-	public ResHandler(Callback<JSONObject> callback, LatLng myPosition){
+	public ResponseHandler(Callback<JSONObject> callback, LatLng myPosition){
 		this.callback = callback;
 		this.myPosition = myPosition;
 	}
