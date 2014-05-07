@@ -2,31 +2,33 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
 
-    <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="4"
-            android:rowCount="20" android:columnOrderPreserved="true" android:padding="0.5dp"
-            android:layout_margin="5dp">
+    <!--<GridLayout-->
+            <!--android:layout_width="285dp"-->
+            <!--android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="4"-->
+            <!--android:rowCount="20" android:columnOrderPreserved="true" android:padding="0.5dp"-->
+            <!--android:layout_margin="5dp">-->
         <TextView
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
+                android:textColor="#00FFFF"
                 android:text="Name"
                 android:textSize="18dp"
                 android:id="@+id/name" android:layout_column="0"  android:layout_row="0"/>
         <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:text=""
                 android:textSize="18dp"
                 android:id="@+id/looName" android:layout_column="1"  android:layout_row="0"/>
         <TextView
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:text="Rating"
                 android:textSize="18dp"
+                android:textColor="#00FFFF"
                 android:id="@+id/rating" android:layout_column="0"  android:layout_row="4"/>
         <RatingBar
                 android:layout_width="wrap_content"
@@ -38,9 +40,10 @@
                 android:layout_column="1"  android:layout_row="4" android:layout_columnSpan="1"/>
         <TextView
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:text="Suitable For"
                 android:textSize="18dp"
+                android:textColor="#00FFFF"
                 android:id="@+id/suitable"  android:layout_column="0" android:layout_row="17"/>
 
         <GridLayout
@@ -86,7 +89,7 @@
                 android:textColor="#0000FF"
                 android:id="@+id/more" android:layout_column="1"
                 android:layout_row="18"/>
-    </GridLayout>
+    <!--</GridLayout>-->
 
 
 </LinearLayout>

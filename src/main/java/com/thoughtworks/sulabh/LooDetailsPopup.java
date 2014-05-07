@@ -23,13 +23,14 @@ public class LooDetailsPopup {
         this.updateLooActivity = updateLooActivity;
     }
 
-    protected void onChangeSelectedCategories() {
-        StringBuilder categories = new StringBuilder();
-        for (int i = 0; i < selectedCategories.size(); i++) {
-            categories.append(selectedCategories.get(i)+"\n");
-        }
-        suitableFor.setText(categories);
-    }
+
+	protected void onChangeSelectedCategories() {
+		StringBuilder categories = new StringBuilder();
+		for (CharSequence selectedCategory : selectedCategories) {
+			categories.append(selectedCategory).append("\n");
+		}
+		suitableFor.setText(categories);
+	}
 
     public void showSelectCategoriesDialog() {
         if (addLooActivity!=null) {

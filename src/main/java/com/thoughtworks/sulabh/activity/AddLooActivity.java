@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.example.R;
+import com.thoughtworks.sulabh.AddCallback;
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.LooDetailsPopup;
-import com.thoughtworks.sulabh.gateways.SulabhGateway;
+import com.thoughtworks.sulabh.handler.AddResponseHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddLooActivity extends Activity{
@@ -67,10 +69,9 @@ public class AddLooActivity extends Activity{
 
                 if (!isDataValid())
                     Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
-
                 else {
                     String name = String.valueOf(AddLooActivity.this.name.getText());
-                    float rating = (float) ratingBar.getRating();
+                    float rating = ratingBar.getRating();
                     boolean isOperationalChecked = operational.isChecked();
                     boolean isHygienicChecked = hygienic.isChecked();
                     boolean isFreeChecked = free.isChecked();
@@ -78,18 +79,8 @@ public class AddLooActivity extends Activity{
                     String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
                     String[] suitableCategories = suitableFor.split(",");
                     double[] location = {coordinates[0], coordinates[1]};
-
                     newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
-
-                    boolean isAdded = new SulabhGateway().addLoo(newLoo);
-                    if (isAdded) {
-                        Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
-                        intent.putExtra("toastMessage", "Added Successfully");
-                        intent.putExtra("isPressed", true);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
+	                new AddResponseHandler(callback(), newLoo).execute();
                 }
             }
         });
@@ -105,6 +96,22 @@ public class AddLooActivity extends Activity{
             return true;
         return false;
     }
+
+	private AddCallback<Boolean> callback(){
+		return new AddCallback<Boolean>() {
+			@Override
+			public void execute(Boolean isAdded) throws IOException {
+				if (isAdded) {
+					Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
+					intent.putExtra("toastMessage", "Added Successfully");
+					intent.putExtra("isPressed", true);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					startActivity(intent);
+					finish();
+				}
+			}
+		};
+	}
 
     public ArrayList<CharSequence> getSelectedCategories() {
         return selectedCategories;
