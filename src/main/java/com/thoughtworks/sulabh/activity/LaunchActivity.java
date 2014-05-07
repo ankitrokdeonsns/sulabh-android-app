@@ -61,7 +61,6 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
             public View getInfoContents(Marker marker) {
                 TextView txtTitle = (TextView) contents.findViewById(R.id.looName);
                 RatingBar ratingBar = (RatingBar) contents.findViewById(R.id.markerRatingBar);
-                TextView moreLink = (TextView)contents.findViewById(R.id.more);
 
                 txtTitle.setText(selectedLoo.getName());
                 ratingBar.setRating(selectedLoo.getActualRating());
