@@ -48,7 +48,7 @@ public class MapDisplayHandler {
 			double latitude = location.getLatitude();
 			double longitude = location.getLongitude();
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 			LatLng myPosition = new LatLng(latitude, longitude);
 			new ResponseHandler(callback(), myPosition).execute();
 		}
