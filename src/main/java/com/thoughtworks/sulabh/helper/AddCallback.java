@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh;
+package com.thoughtworks.sulabh.helper;
 
 import java.io.IOException;
 

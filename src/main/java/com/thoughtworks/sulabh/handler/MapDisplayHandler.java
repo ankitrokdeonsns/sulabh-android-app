@@ -9,8 +9,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.thoughtworks.sulabh.Callback;
-import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.helper.Callback;
+import com.thoughtworks.sulabh.model.Loo;
 import com.thoughtworks.sulabh.activity.LaunchActivity;
 import org.json.JSONObject;
 

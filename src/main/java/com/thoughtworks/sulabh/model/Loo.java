@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh;
+package com.thoughtworks.sulabh.model;
 
 import com.google.android.gms.maps.model.LatLng;
 import org.codehaus.jackson.map.ObjectMapper;

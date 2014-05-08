@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh;
+package com.thoughtworks.sulabh.helper;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

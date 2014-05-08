@@ -1,4 +1,6 @@
-package com.thoughtworks.sulabh;
+package com.thoughtworks.sulabh.helper;
+
+import com.thoughtworks.sulabh.model.Loo;
 
 import java.io.IOException;
 import java.util.List;

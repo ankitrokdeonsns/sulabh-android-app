@@ -1,7 +1,7 @@
 package com.thoughtworks.sulabh.gateways;
 
-import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.LooList;
+import com.thoughtworks.sulabh.model.Loo;
+import com.thoughtworks.sulabh.model.LooList;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;

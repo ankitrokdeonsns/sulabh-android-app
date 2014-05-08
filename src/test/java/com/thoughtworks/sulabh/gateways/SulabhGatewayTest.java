@@ -2,7 +2,7 @@ package com.thoughtworks.sulabh.gateways;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
-import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.model.Loo;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.junit.Before;

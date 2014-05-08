@@ -1,8 +1,8 @@
 package com.thoughtworks.sulabh.handler;
 
 import android.os.AsyncTask;
-import com.thoughtworks.sulabh.AddCallback;
-import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.helper.AddCallback;
+import com.thoughtworks.sulabh.model.Loo;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 
 import java.io.IOException;

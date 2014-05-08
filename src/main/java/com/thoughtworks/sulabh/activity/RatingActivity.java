@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import com.example.R;
-import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.Rating;
+import com.thoughtworks.sulabh.model.Loo;
+import com.thoughtworks.sulabh.model.Rating;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 
 public class RatingActivity extends Activity {

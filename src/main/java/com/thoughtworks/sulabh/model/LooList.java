@@ -1,4 +1,4 @@
-package com.thoughtworks.sulabh;
+package com.thoughtworks.sulabh.model;
 
 import java.util.ArrayList;
 import java.util.List;

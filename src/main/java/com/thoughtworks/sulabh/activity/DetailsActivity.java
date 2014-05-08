@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.example.R;
-import com.thoughtworks.sulabh.Loo;
+import com.thoughtworks.sulabh.model.Loo;
 
 public class DetailsActivity extends Activity{
 

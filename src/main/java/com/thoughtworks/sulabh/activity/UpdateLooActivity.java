@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.example.R;
-import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.LooDetailsPopup;
-import com.thoughtworks.sulabh.UpdateCallback;
+import com.thoughtworks.sulabh.model.Loo;
+import com.thoughtworks.sulabh.helper.LooDetailsPopup;
+import com.thoughtworks.sulabh.helper.UpdateCallback;
 import com.thoughtworks.sulabh.handler.UpdateResponseHandler;
 
 import java.io.IOException;

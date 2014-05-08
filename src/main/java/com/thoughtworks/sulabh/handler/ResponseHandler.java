@@ -2,8 +2,8 @@ package com.thoughtworks.sulabh.handler;
 
 import android.os.AsyncTask;
 import com.google.android.gms.maps.model.LatLng;
-import com.thoughtworks.sulabh.Loo;
-import com.thoughtworks.sulabh.Callback;
+import com.thoughtworks.sulabh.model.Loo;
+import com.thoughtworks.sulabh.helper.Callback;
 import com.thoughtworks.sulabh.gateways.SulabhGateway;
 import org.json.JSONObject;
 
