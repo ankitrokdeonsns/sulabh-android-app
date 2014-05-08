@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,8 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         new MapDisplayHandler(map, this).displayMap();
-        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+	    map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             private final View contents = getLayoutInflater().inflate(R.layout.marker_details, null);
 
             @Override
@@ -59,12 +61,33 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 
             @Override
             public View getInfoContents(Marker marker) {
-                TextView txtTitle = (TextView) contents.findViewById(R.id.looName);
-                RatingBar ratingBar = (RatingBar) contents.findViewById(R.id.markerRatingBar);
+	            TextView txtTitle = (TextView) contents.findViewById(R.id.looName);
+	            RatingBar ratingBar = (RatingBar) contents.findViewById(R.id.markerRatingBar);
 
-                txtTitle.setText(selectedLoo.getName());
+	            String suitableFor = selectedLoo.getSuitableFor();
+	            String[] suitableOptions = suitableFor.split("\n");
+
+	            ImageView men = (ImageView) contents.findViewById(R.id.men);
+	            men.setImageDrawable(null);
+	            ImageView women = (ImageView) contents.findViewById(R.id.women);
+	            women.setImageDrawable(null);
+	            ImageView babies = (ImageView) contents.findViewById(R.id.babies);
+	            babies.setImageDrawable(null);
+	            ImageView handicapped = (ImageView) contents.findViewById(R.id.handicapped);
+	            handicapped.setImageDrawable(null);
+	            ImageView transgender = (ImageView) contents.findViewById(R.id.transgender);
+	            transgender.setImageDrawable(null);
+
+	            for (String suitable : suitableOptions) {
+		            if (suitable.equals("Men")) men.setImageResource(R.drawable.men);
+		            if (suitable.equals("Women")) women.setImageResource(R.drawable.women);
+		            if (suitable.equals("Babies")) babies.setImageResource(R.drawable.babies);
+		            if (suitable.equals("Handicapped")) handicapped.setImageResource(R.drawable.handicapped);
+		            if (suitable.equals("TransGender")) transgender.setImageResource(R.drawable.transgender);
+	            }
+
+	            txtTitle.setText(selectedLoo.getName());
                 ratingBar.setRating(selectedLoo.getActualRating());
-
                 return contents;
             }
 
@@ -94,16 +117,16 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(yesAction);
-                    }
+	                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+		                startActivity(yesAction);
+	                }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                        if(status == 0)
-                            System.exit(0);
-                    }
+	                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+		                dialog.cancel();
+		                if (status == 0)
+			                System.exit(0);
+	                }
                 });
         final AlertDialog alert = builder.create();
         alert.show();
@@ -129,10 +152,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
                         selectedLoo = loo;
                     }
                 }
-//                Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-//                intent.putExtra("Loo", selectedLoo);
                 marker.showInfoWindow();
-//                startActivity(intent);
                 return true;
             }
         });

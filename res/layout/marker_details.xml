@@ -51,28 +51,23 @@
                 android:layout_marginLeft="50dp">
 
             <ImageView
-                    android:id="@+id/one"
-                    android:src="@drawable/mensroom"
+                    android:id="@+id/men"
                     android:layout_height="35dp"
                     android:layout_width="35dp"/>
             <ImageView
-                    android:id="@+id/two"
-                    android:src="@drawable/womenroom"
+                    android:id="@+id/women"
                     android:layout_height="35dp"
                     android:layout_width="35dp"/>
             <ImageView
-                    android:id="@+id/three"
-                    android:src="@drawable/babyroom"
+                    android:id="@+id/babies"
                     android:layout_height="35dp"
                     android:layout_width="35dp"/>
             <ImageView
-                    android:id="@+id/four"
-                    android:src="@drawable/ic_launcher"
+                    android:id="@+id/handicapped"
                     android:layout_height="35dp"
                     android:layout_width="35dp"/>
             <ImageView
-                    android:id="@+id/five"
-                    android:src="@drawable/img1"
+                    android:id="@+id/transgender"
                     android:layout_height="35dp"
                     android:layout_width="35dp"/>
         </GridLayout>
