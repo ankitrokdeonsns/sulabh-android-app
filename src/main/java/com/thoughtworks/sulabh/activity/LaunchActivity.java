@@ -9,10 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.thoughtworks.sulabh.Loo;
 import com.thoughtworks.sulabh.handler.MapDisplayHandler;
+import com.thoughtworks.sulabh.helper.ImageMapper;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
     private GoogleMap map;
     private Loo selectedLoo;
 
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -51,48 +48,9 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         new MapDisplayHandler(map, this).displayMap();
 
-	    map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            private final View contents = getLayoutInflater().inflate(R.layout.marker_details, null);
+		new ImageMapper(this).mapImages();
 
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-	            TextView txtTitle = (TextView) contents.findViewById(R.id.looName);
-	            RatingBar ratingBar = (RatingBar) contents.findViewById(R.id.markerRatingBar);
-
-	            String suitableFor = selectedLoo.getSuitableFor();
-	            String[] suitableOptions = suitableFor.split("\n");
-
-	            ImageView men = (ImageView) contents.findViewById(R.id.men);
-	            men.setImageDrawable(null);
-	            ImageView women = (ImageView) contents.findViewById(R.id.women);
-	            women.setImageDrawable(null);
-	            ImageView babies = (ImageView) contents.findViewById(R.id.babies);
-	            babies.setImageDrawable(null);
-	            ImageView handicapped = (ImageView) contents.findViewById(R.id.handicapped);
-	            handicapped.setImageDrawable(null);
-	            ImageView transgender = (ImageView) contents.findViewById(R.id.transgender);
-	            transgender.setImageDrawable(null);
-
-	            for (String suitable : suitableOptions) {
-		            if (suitable.equals("Men")) men.setImageResource(R.drawable.men);
-		            if (suitable.equals("Women")) women.setImageResource(R.drawable.women);
-		            if (suitable.equals("Babies")) babies.setImageResource(R.drawable.babies);
-		            if (suitable.equals("Handicapped")) handicapped.setImageResource(R.drawable.handicapped);
-		            if (suitable.equals("TransGender")) transgender.setImageResource(R.drawable.transgender);
-	            }
-
-	            txtTitle.setText(selectedLoo.getName());
-                ratingBar.setRating(selectedLoo.getActualRating());
-                return contents;
-            }
-
-        });
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+	    map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
@@ -165,4 +123,8 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
     public GoogleMap getMap() {
         return map;
     }
+
+	public Loo getSelectedLoo() {
+		return selectedLoo;
+	}
 }
