@@ -11,9 +11,12 @@ import java.util.ArrayList;
 public class LooDetailsPopup {
     private AddLooActivity addLooActivity;
     private UpdateLooActivity updateLooActivity;
-    CharSequence[] suitableOptions;
-    private ArrayList<CharSequence> selectedCategories;
-    private Button suitableFor;
+    CharSequence[] allSuitableOptions;
+    private ArrayList<CharSequence> currentSelectedCategories;
+    private Button suitableForButton;
+    private String previouslySelectedCategories;
+    private String[] previousSelectedOptions;
+    private boolean[] checkedCategories;
 
     public LooDetailsPopup(AddLooActivity addLooActivity) {
         this.addLooActivity = addLooActivity;
@@ -24,42 +27,66 @@ public class LooDetailsPopup {
     }
 
 
-	protected void onChangeSelectedCategories() {
-		StringBuilder categories = new StringBuilder();
-		for (CharSequence selectedCategory : selectedCategories) {
-			categories.append(selectedCategory).append("\n");
-		}
-		suitableFor.setText(categories);
-	}
+    protected void onChangeSelectedCategories() {
+        StringBuilder categories = new StringBuilder();
+        for (CharSequence selectedCategory : currentSelectedCategories) {
+            categories.append(selectedCategory).append("\n");
+        }
+        suitableForButton.setText(categories);
+    }
 
     public void showSelectCategoriesDialog() {
         if (addLooActivity!=null) {
-            suitableFor = addLooActivity.getSuitableFor();
-            suitableOptions = addLooActivity.getSuitableOptions();
-            selectedCategories = addLooActivity.getSelectedCategories();
+            suitableForButton = addLooActivity.getSuitableForButton();
+            allSuitableOptions = addLooActivity.getAllSuitableOptions();
+            currentSelectedCategories = addLooActivity.getSelectedCategories();
         }
         else {
-            suitableFor = updateLooActivity.getSuitableFor();
-            suitableOptions = updateLooActivity.getSuitableOptions();
-            selectedCategories = updateLooActivity.getSelectedCategories();
+            suitableForButton = updateLooActivity.getSuitableForButton();
+            allSuitableOptions = updateLooActivity.getAllSuitableOptions();
+            currentSelectedCategories = updateLooActivity.getSelectedCategories();
+            previouslySelectedCategories = updateLooActivity.getSelectedLooSuitableFor();
         }
 
-        boolean[] checkedCategories = new boolean[suitableOptions.length];
-        int count = suitableOptions.length;
+        checkedCategories = new boolean[allSuitableOptions.length];
 
-        for (int i = 0; i < count; i++)
-            checkedCategories[i] = selectedCategories.contains(suitableOptions[i]);
+
+        if(updateLooActivity!= null){
+            previousSelectedOptions = previouslySelectedCategories.split("\n");
+            for (String previousSelectedOption : previousSelectedOptions) {
+                if(!currentSelectedCategories.contains(previousSelectedOption))
+                    currentSelectedCategories.add(previousSelectedOption);
+            }
+        }
+
+
 
         DialogInterface.OnMultiChoiceClickListener categoriesDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if (isChecked)
-                    selectedCategories.add(suitableOptions[which]);
+                if(updateLooActivity!=null) {
+                    for (String previousSelectedOption : previousSelectedOptions) {
+                        if (!currentSelectedCategories.contains(previousSelectedOption))
+                            currentSelectedCategories.add(previousSelectedOption);
+                    }
+                }
+                if (isChecked) {
+                    if(!currentSelectedCategories.contains(allSuitableOptions[which]))
+                        currentSelectedCategories.add(allSuitableOptions[which]);
+                }
                 else
-                    selectedCategories.remove(suitableOptions[which]);
+                    currentSelectedCategories.remove(allSuitableOptions[which]);
+
                 onChangeSelectedCategories();
             }
+
         };
+
+
+        for (int i = 0; i < allSuitableOptions.length; i++) {
+            checkedCategories[i] = currentSelectedCategories.contains(allSuitableOptions[i]);
+        }
 
         AlertDialog.Builder builder;
         if (addLooActivity!=null)
@@ -67,7 +94,7 @@ public class LooDetailsPopup {
         else
             builder= new AlertDialog.Builder(updateLooActivity);
         builder.setTitle("Select Category");
-        builder.setMultiChoiceItems(suitableOptions, checkedCategories, categoriesDialogListener);
+        builder.setMultiChoiceItems(allSuitableOptions, checkedCategories, categoriesDialogListener);
 
         AlertDialog dialog = builder.create();
         dialog.show();

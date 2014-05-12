@@ -32,6 +32,7 @@ public class UpdateLooActivity extends Activity{
     private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
     protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
     private String name;
+    private String selectedLooSuitableFor;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,16 @@ public class UpdateLooActivity extends Activity{
 		else
 			freeStatus.findViewById(R.id.freeNo).performClick();
 
-		kind = (Spinner) findViewById(R.id.type);
+        kind = (Spinner) findViewById(R.id.type);
+        String previousKind = loo.getType();
+        if(previousKind.equals("Indian"))
+            kind.setSelection(0);
+        else
+            kind.setSelection(1);
+
 		suitableFor = (Button) findViewById(R.id.suitableTo);
+        selectedLooSuitableFor = loo.getSuitableFor();
+        suitableFor.setText(selectedLooSuitableFor);
 
         suitableFor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +151,7 @@ public class UpdateLooActivity extends Activity{
 		};
 	}
 
-	public CharSequence[] getSuitableOptions() {
+	public CharSequence[] getAllSuitableOptions() {
         return suitableOptions;
     }
 
@@ -150,7 +159,11 @@ public class UpdateLooActivity extends Activity{
         return selectedCategories;
     }
 
-    public Button getSuitableFor() {
+    public Button getSuitableForButton() {
         return suitableFor;
+    }
+
+    public String getSelectedLooSuitableFor() {
+        return selectedLooSuitableFor;
     }
 }

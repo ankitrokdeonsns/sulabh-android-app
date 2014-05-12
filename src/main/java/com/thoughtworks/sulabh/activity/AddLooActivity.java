@@ -117,11 +117,11 @@ public class AddLooActivity extends Activity{
         return selectedCategories;
     }
 
-    public Button getSuitableFor() {
+    public Button getSuitableForButton() {
         return suitableFor;
     }
 
-    public CharSequence[] getSuitableOptions() {
+    public CharSequence[] getAllSuitableOptions() {
         return suitableOptions;
     }
 }
