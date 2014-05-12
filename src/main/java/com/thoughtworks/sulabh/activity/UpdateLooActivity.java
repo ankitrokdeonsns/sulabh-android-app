@@ -82,8 +82,8 @@ public class UpdateLooActivity extends Activity{
 			@Override
 			public void onClick(View v) {
                 int selectedOperational = operationalStatus.getCheckedRadioButtonId();
-                operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
-                int selectedHygienic = hygienicStatus.getCheckedRadioButtonId();
+				operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
+				int selectedHygienic = hygienicStatus.getCheckedRadioButtonId();
                 hygienic = (RadioButton) hygienicStatus.findViewById(selectedHygienic);
                 int selectedFree = freeStatus.getCheckedRadioButtonId();
                 free = (RadioButton) freeStatus.findViewById(selectedFree);
@@ -93,9 +93,13 @@ public class UpdateLooActivity extends Activity{
                 else {
                     name = String.valueOf(UpdateLooActivity.this.placeName.getText());
                     float rating = ratingBar.getRating();
-                    boolean isOperationalChecked = operational.isChecked();
-                    boolean isHygienicChecked = hygienic.isChecked();
-                    boolean isFreeChecked = free.isChecked();
+	                boolean isOperationalChecked = true;
+	                boolean isHygienicChecked = true;
+	                boolean isFreeChecked = true;
+
+	                if(operational.getText().equals("No")) isOperationalChecked = false;
+	                if(hygienic.getText().equals("No")) isHygienicChecked = false;
+	                if(free.getText().equals("No")) isFreeChecked = false;
 
                     String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
                     String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();

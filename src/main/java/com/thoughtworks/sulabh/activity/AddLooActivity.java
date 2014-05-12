@@ -72,9 +72,14 @@ public class AddLooActivity extends Activity{
                 else {
                     String name = String.valueOf(AddLooActivity.this.name.getText());
                     float rating = ratingBar.getRating();
-                    boolean isOperationalChecked = operational.isChecked();
-                    boolean isHygienicChecked = hygienic.isChecked();
-                    boolean isFreeChecked = free.isChecked();
+	                boolean isOperationalChecked = true;
+	                boolean isHygienicChecked = true;
+	                boolean isFreeChecked = true;
+
+	                if(operational.getText().equals("No")) isOperationalChecked = false;
+	                if(hygienic.getText().equals("No")) isHygienicChecked = false;
+	                if(free.getText().equals("No")) isFreeChecked = false;
+
                     String kind = AddLooActivity.this.kind.getSelectedItem().toString();
                     String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
                     String[] suitableCategories = suitableFor.split(",");
