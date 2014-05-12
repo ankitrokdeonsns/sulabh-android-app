@@ -99,11 +99,34 @@
                 android:layout_weight="0.05" android:textSize="25dp"
                 android:layout_margin="5dp"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/suitableFor" android:layout_weight="0.05" android:textSize="25dp"
-                android:layout_margin="5dp"/>
+        <GridLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/suitableTo"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="5"
+                android:rowCount="1" android:columnOrderPreserved="true" android:padding="0.5dp">
+
+            <ImageView
+                    android:id="@+id/menIcon"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/womenIcon"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/babiesIcon"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/handicappedIcon"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+            <ImageView
+                    android:id="@+id/transgenderIcon"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"/>
+        </GridLayout>
 
     </LinearLayout>
 
