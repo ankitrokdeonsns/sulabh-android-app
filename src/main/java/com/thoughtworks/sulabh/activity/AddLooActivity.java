@@ -24,7 +24,6 @@ public class AddLooActivity extends Activity{
     private Button suitableFor;
     private RadioButton operational;
     private RadioButton free;
-    private RadioButton hygienic;
     private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
     protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
 
@@ -40,11 +39,9 @@ public class AddLooActivity extends Activity{
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         final RadioGroup isOperational = (RadioGroup) findViewById(R.id.isOperational);
-        final RadioGroup isHygienic = (RadioGroup) findViewById(R.id.isHygienic);
         final RadioGroup isFree = (RadioGroup) findViewById(R.id.isFree);
 
         isOperational.check(R.id.operationalYes);
-        isHygienic.check(R.id.hygienicYes);
         isFree.check(R.id.freeYes);
 
         kind = (Spinner) findViewById(R.id.type);
@@ -62,8 +59,6 @@ public class AddLooActivity extends Activity{
             public void onClick(View v) {
                 int selectedOperational = isOperational.getCheckedRadioButtonId();
                 operational = (RadioButton) isOperational.findViewById(selectedOperational);
-                int selectedHygienic = isHygienic.getCheckedRadioButtonId();
-                hygienic = (RadioButton) isHygienic.findViewById(selectedHygienic);
                 int selectedFree = isFree.getCheckedRadioButtonId();
                 free = (RadioButton) isFree.findViewById(selectedFree);
 
@@ -73,18 +68,16 @@ public class AddLooActivity extends Activity{
                     String name = String.valueOf(AddLooActivity.this.name.getText());
                     float rating = ratingBar.getRating();
 	                boolean isOperationalChecked = true;
-	                boolean isHygienicChecked = true;
 	                boolean isFreeChecked = true;
 
 	                if(operational.getText().equals("No")) isOperationalChecked = false;
-	                if(hygienic.getText().equals("No")) isHygienicChecked = false;
 	                if(free.getText().equals("No")) isFreeChecked = false;
 
                     String kind = AddLooActivity.this.kind.getSelectedItem().toString();
                     String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
                     String[] suitableCategories = suitableFor.split(",");
                     double[] location = {coordinates[0], coordinates[1]};
-                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
+                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
 	                new AddResponseHandler(callback(), newLoo).execute();
                 }
             }
@@ -94,7 +87,6 @@ public class AddLooActivity extends Activity{
     private boolean isDataValid(){
         if(!name.getText().toString().trim().equals("") &&
                 operational.isChecked() &&
-                hygienic.isChecked() &&
                 free.isChecked() &&
                 !kind.getSelectedItem().toString().equals("") &&
                 !suitableFor.getText().toString().equals("None selected !"))

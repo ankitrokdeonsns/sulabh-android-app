@@ -19,11 +19,8 @@ public class UpdateLooActivity extends Activity{
 	private TextView placeName;
 	private RatingBar ratingBar;
 	private RadioGroup operationalStatus;
-	private RadioGroup hygienicStatus;
 	private RadioGroup freeStatus;
-	private Button submit;
 	private RadioButton operational;
-	private RadioButton hygienic;
 	private RadioButton free;
 	private Spinner kind;
 	private Button suitableFor;
@@ -55,12 +52,6 @@ public class UpdateLooActivity extends Activity{
 		operationalStatus = (RadioGroup) findViewById(R.id.isOperational);
 		setStatus(operationalStatus);
 
-		hygienicStatus = (RadioGroup) findViewById(R.id.isHygienic);
-		if(loo.getHygienic())
-			hygienicStatus.findViewById(R.id.hygienicYes).performClick();
-		else
-			hygienicStatus.findViewById(R.id.hygienicNo).performClick();
-
 		freeStatus = (RadioGroup) findViewById(R.id.isFree);
 		if(loo.getFree())
 			freeStatus.findViewById(R.id.freeYes).performClick();
@@ -85,38 +76,34 @@ public class UpdateLooActivity extends Activity{
             }
         });
 
-		submit = (Button) findViewById(R.id.submit);
+	    Button submit = (Button) findViewById(R.id.submit);
 		submit.setText("Update");
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                int selectedOperational = operationalStatus.getCheckedRadioButtonId();
+				int selectedOperational = operationalStatus.getCheckedRadioButtonId();
 				operational = (RadioButton) operationalStatus.findViewById(selectedOperational);
-				int selectedHygienic = hygienicStatus.getCheckedRadioButtonId();
-                hygienic = (RadioButton) hygienicStatus.findViewById(selectedHygienic);
-                int selectedFree = freeStatus.getCheckedRadioButtonId();
-                free = (RadioButton) freeStatus.findViewById(selectedFree);
+				int selectedFree = freeStatus.getCheckedRadioButtonId();
+				free = (RadioButton) freeStatus.findViewById(selectedFree);
 
-                if (!isDataValid())
-                    Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
-                else {
-                    name = String.valueOf(UpdateLooActivity.this.placeName.getText());
-                    float rating = ratingBar.getRating();
-	                boolean isOperationalChecked = true;
-	                boolean isHygienicChecked = true;
-	                boolean isFreeChecked = true;
+				if (!isDataValid())
+					Toast.makeText(getApplicationContext(), "All fields are mandatory!", Toast.LENGTH_LONG).show();
+				else {
+					name = String.valueOf(UpdateLooActivity.this.placeName.getText());
+					float rating = ratingBar.getRating();
+					boolean isOperationalChecked = true;
+					boolean isFreeChecked = true;
 
-	                if(operational.getText().equals("No")) isOperationalChecked = false;
-	                if(hygienic.getText().equals("No")) isHygienicChecked = false;
-	                if(free.getText().equals("No")) isFreeChecked = false;
+					if (operational.getText().equals("No")) isOperationalChecked = false;
+					if (free.getText().equals("No")) isFreeChecked = false;
 
-                    String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
-                    String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
-                    String[] suitableCategories = suitableFor.split(",");
-                    double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
-                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isHygienicChecked, isOperationalChecked, rating, location, name);
-                    new UpdateResponseHandler(callback(), newLoo).execute();
-                }
+					String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
+					String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
+					String[] suitableCategories = suitableFor.split(",");
+					double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
+					newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
+					new UpdateResponseHandler(callback(), newLoo).execute();
+				}
 			}
 		});
 	}
@@ -124,7 +111,6 @@ public class UpdateLooActivity extends Activity{
     private boolean isDataValid(){
         if(!placeName.getText().toString().trim().equals("") &&
                 operational.isChecked() &&
-                hygienic.isChecked() &&
                 free.isChecked() &&
                 !kind.getSelectedItem().toString().equals("") &&
                 !suitableFor.getText().toString().equals("None selected !"))

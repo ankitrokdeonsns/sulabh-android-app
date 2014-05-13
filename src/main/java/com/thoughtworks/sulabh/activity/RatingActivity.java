@@ -36,7 +36,7 @@ public class RatingActivity extends Activity {
 			    loo.setRating(updatedRating);
 
 				Loo newLoo = new Loo(new String[]{loo.getSuitableFor()}, loo.getType(), loo.getFree(),
-						loo.getHygienic(), loo.getOperational(), rating, loo.getCoordinates(), loo.getName());
+						loo.getOperational(), rating, loo.getCoordinates(), loo.getName());
 
 			    new SulabhGateway().rate(newLoo);
 			    Intent intent = new Intent(RatingActivity.this, LaunchActivity.class);

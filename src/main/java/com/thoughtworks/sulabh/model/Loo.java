@@ -12,19 +12,17 @@ public class Loo implements Serializable{
 	private double coordinates[];
 	private Rating rating;
 	private Boolean operational;
-	private Boolean hygienic;
 	private Boolean free;
 	private String type;
 	private String[] suitableFor;
 
 	private Loo() {}
 
-	public Loo(String[] suitableFor, String type, Boolean free, Boolean hygienic, Boolean operational, float rating, double[] coordinates, String name) {
+	public Loo(String[] suitableFor, String type, Boolean free, Boolean operational, float rating, double[] coordinates, String name) {
 
 		this.suitableFor = suitableFor;
 		this.type = type;
 		this.free = free;
-		this.hygienic = hygienic;
 		this.operational = operational;
 		this.rating = new Rating(rating, 1);
 		this.coordinates = coordinates;
@@ -52,10 +50,6 @@ public class Loo implements Serializable{
 
 	public Boolean getOperational() {
 		return operational;
-	}
-
-	public Boolean getHygienic() {
-		return hygienic;
 	}
 
 	public Boolean getFree() {

@@ -16,9 +16,8 @@ public class LooDetailsPopup {
     private Button suitableForButton;
     private String previouslySelectedCategories;
     private String[] previousSelectedOptions;
-    private boolean[] checkedCategories;
 
-    public LooDetailsPopup(AddLooActivity addLooActivity) {
+	public LooDetailsPopup(AddLooActivity addLooActivity) {
         this.addLooActivity = addLooActivity;
     }
 
@@ -49,7 +48,7 @@ public class LooDetailsPopup {
             previouslySelectedCategories = updateLooActivity.getSelectedLooSuitableFor();
         }
 
-        checkedCategories = new boolean[allSuitableOptions.length];
+	    boolean[] checkedCategories = new boolean[allSuitableOptions.length];
 
         if(updateLooActivity!= null){
             previousSelectedOptions = previouslySelectedCategories.split("\n");

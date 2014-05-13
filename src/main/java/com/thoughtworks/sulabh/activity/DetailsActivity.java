@@ -40,10 +40,6 @@ public class DetailsActivity extends Activity{
 		TextView operational = (TextView) findViewById(R.id.isOperational);
 		operational.setText(mapValues(isOperational));
 
-		String isHygienic = String.valueOf(loo.getHygienic());
-		TextView hygienic = (TextView) findViewById(R.id.isHygienic);
-		hygienic.setText(mapValues(isHygienic));
-
 		String isFree = String.valueOf(loo.getFree());
 		TextView free = (TextView) findViewById(R.id.isFree);
 		free.setText(mapValues(isFree));
