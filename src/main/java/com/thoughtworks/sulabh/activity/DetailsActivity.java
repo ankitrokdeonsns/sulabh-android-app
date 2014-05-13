@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.example.R;
 import com.thoughtworks.sulabh.model.Loo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DetailsActivity extends Activity{
 
 	private Loo loo;
@@ -69,6 +72,18 @@ public class DetailsActivity extends Activity{
 			if (suitable.equals("Babies")) babies.setImageResource(R.drawable.babies);
 			if (suitable.equals("Handicapped")) handicapped.setImageResource(R.drawable.handicapped);
 			if (suitable.equals("TransGender")) transGender.setImageResource(R.drawable.transgender);
+		}
+
+		List<ImageView> suits = new ArrayList<ImageView>();
+		suits.add(men);
+		suits.add(women);
+		suits.add(babies);
+		suits.add(handicapped);
+		suits.add(transGender);
+
+		for (ImageView suit : suits) {
+			if(suit.getDrawable() == null)
+				suit.setVisibility(suit.GONE);
 		}
 	}
 
