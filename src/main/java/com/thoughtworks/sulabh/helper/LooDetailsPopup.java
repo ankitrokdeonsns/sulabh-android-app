@@ -26,9 +26,10 @@ public class LooDetailsPopup {
         this.updateLooActivity = updateLooActivity;
     }
 
-
     protected void onChangeSelectedCategories() {
         StringBuilder categories = new StringBuilder();
+        if(updateLooActivity!=null)
+            previousSelectedOptions = currentSelectedCategories.toArray(previousSelectedOptions);
         for (CharSequence selectedCategory : currentSelectedCategories) {
             categories.append(selectedCategory).append("\n");
         }
@@ -50,7 +51,6 @@ public class LooDetailsPopup {
 
         checkedCategories = new boolean[allSuitableOptions.length];
 
-
         if(updateLooActivity!= null){
             previousSelectedOptions = previouslySelectedCategories.split("\n");
             for (String previousSelectedOption : previousSelectedOptions) {
@@ -59,34 +59,33 @@ public class LooDetailsPopup {
             }
         }
 
-
-
         DialogInterface.OnMultiChoiceClickListener categoriesDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if(updateLooActivity!=null) {
-                    for (String previousSelectedOption : previousSelectedOptions) {
-                        if (!currentSelectedCategories.contains(previousSelectedOption))
-                            currentSelectedCategories.add(previousSelectedOption);
+                if(isChecked){
+                    if(updateLooActivity!=null) {
+                        for (String previousSelectedOption : previousSelectedOptions) {
+                            if (!currentSelectedCategories.contains(previousSelectedOption))
+                                currentSelectedCategories.add(previousSelectedOption);
+                        }
                     }
-                }
-                if (isChecked) {
+                    for (int i = 0; i < currentSelectedCategories.size(); i++) {
+                        if(currentSelectedCategories.get(i)==null)
+                            currentSelectedCategories.remove(i);
+                    }
                     if(!currentSelectedCategories.contains(allSuitableOptions[which]))
                         currentSelectedCategories.add(allSuitableOptions[which]);
                 }
-                else
-                    currentSelectedCategories.remove(allSuitableOptions[which]);
-
+                else {
+                    if(currentSelectedCategories.contains(null))
+                        currentSelectedCategories.remove(null);
+                    else
+                        currentSelectedCategories.remove(allSuitableOptions[which]);
+                }
                 onChangeSelectedCategories();
             }
-
         };
-
-
-        for (int i = 0; i < allSuitableOptions.length; i++) {
-            checkedCategories[i] = currentSelectedCategories.contains(allSuitableOptions[i]);
-        }
 
         AlertDialog.Builder builder;
         if (addLooActivity!=null)
@@ -94,9 +93,16 @@ public class LooDetailsPopup {
         else
             builder= new AlertDialog.Builder(updateLooActivity);
         builder.setTitle("Select Category");
+        for (int i = 0; i < allSuitableOptions.length; i++) {
+            if(checkedCategories[i] = currentSelectedCategories.contains(allSuitableOptions[i]))
+                checkedCategories[i] = true;
+            else
+                checkedCategories[i]= false;
+        }
         builder.setMultiChoiceItems(allSuitableOptions, checkedCategories, categoriesDialogListener);
 
         AlertDialog dialog = builder.create();
+
         dialog.show();
     }
 }
