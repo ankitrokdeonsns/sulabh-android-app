@@ -6,93 +6,106 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.example.R;
+import com.thoughtworks.sulabh.handler.AddResponseHandler;
 import com.thoughtworks.sulabh.helper.AddCallback;
 import com.thoughtworks.sulabh.model.Loo;
-import com.thoughtworks.sulabh.helper.LooDetailsPopup;
-import com.thoughtworks.sulabh.handler.AddResponseHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddLooActivity extends Activity{
 
-    private final LooDetailsPopup looDetailsPopup = new LooDetailsPopup(this);
-    private Loo newLoo;
-    private EditText name;
-    private RatingBar ratingBar;
-    private Spinner kind;
-    private Button suitableFor;
-    private RadioButton operational;
-    private RadioButton free;
-    private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
-    protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
+	private Loo newLoo;
+	private EditText name;
+	private RatingBar ratingBar;
+	private Spinner kind;
+	private RadioButton operational;
+	private RadioButton free;
+	private CheckBox men;
+	private CheckBox women;
+	private CheckBox babies;
+	private CheckBox transGender;
+	private CheckBox handicapped;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_loo);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.add_loo);
 
-        final Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        final double[] coordinates = extras.getDoubleArray("coordinates");
-        name = (EditText) findViewById(R.id.addName);
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+		final Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		final double[] coordinates = extras.getDoubleArray("coordinates");
+		name = (EditText) findViewById(R.id.addName);
+		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
-        final RadioGroup isOperational = (RadioGroup) findViewById(R.id.isOperational);
-        final RadioGroup isFree = (RadioGroup) findViewById(R.id.isFree);
+		final RadioGroup isOperational = (RadioGroup) findViewById(R.id.isOperational);
+		final RadioGroup isFree = (RadioGroup) findViewById(R.id.isFree);
 
-        isOperational.check(R.id.operationalYes);
-        isFree.check(R.id.freeYes);
+		isOperational.check(R.id.operationalYes);
+		isFree.check(R.id.freeYes);
 
-        kind = (Spinner) findViewById(R.id.type);
-        suitableFor = (Button) findViewById(R.id.suitableTo);
-        suitableFor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                looDetailsPopup.showSelectCategoriesDialog();
-            }
-        });
+		kind = (Spinner) findViewById(R.id.type);
 
-        Button submit = (Button) findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedOperational = isOperational.getCheckedRadioButtonId();
-                operational = (RadioButton) isOperational.findViewById(selectedOperational);
-                int selectedFree = isFree.getCheckedRadioButtonId();
-                free = (RadioButton) isFree.findViewById(selectedFree);
+		Button submit = (Button) findViewById(R.id.submit);
+		submit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int selectedOperational = isOperational.getCheckedRadioButtonId();
+				operational = (RadioButton) isOperational.findViewById(selectedOperational);
+				int selectedFree = isFree.getCheckedRadioButtonId();
+				free = (RadioButton) isFree.findViewById(selectedFree);
 
-                if (!isDataValid())
-                    Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
-                else {
-                    String name = String.valueOf(AddLooActivity.this.name.getText());
-                    float rating = ratingBar.getRating();
-	                boolean isOperationalChecked = true;
-	                boolean isFreeChecked = true;
+				men = (CheckBox) findViewById(R.id.men);
+				women = (CheckBox) findViewById(R.id.women);
+				babies = (CheckBox) findViewById(R.id.babies);
+				transGender = (CheckBox) findViewById(R.id.transgender);
+				handicapped = (CheckBox) findViewById(R.id.handicapped);
 
-	                if(operational.getText().equals("No")) isOperationalChecked = false;
-	                if(free.getText().equals("No")) isFreeChecked = false;
+				if (!isDataValid())
+					Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
+				else {
+					String name = String.valueOf(AddLooActivity.this.name.getText());
+					float rating = ratingBar.getRating();
+					boolean isOperationalChecked = true;
+					boolean isFreeChecked = true;
 
-                    String kind = AddLooActivity.this.kind.getSelectedItem().toString();
-                    String suitableFor = AddLooActivity.this.suitableFor.getText().toString();
-                    String[] suitableCategories = suitableFor.split(",");
-                    double[] location = {coordinates[0], coordinates[1]};
-                    newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
-	                new AddResponseHandler(callback(), newLoo).execute();
-                }
-            }
-        });
-    }
+					if(operational.getText().equals("No")) isOperationalChecked = false;
+					if(free.getText().equals("No")) isFreeChecked = false;
 
-    private boolean isDataValid(){
-        if(!name.getText().toString().trim().equals("") &&
-                operational.isChecked() &&
-                free.isChecked() &&
-                !kind.getSelectedItem().toString().equals("") &&
-                !suitableFor.getText().toString().equals("None selected !"))
-            return true;
-        return false;
-    }
+					String kind = AddLooActivity.this.kind.getSelectedItem().toString();
+
+					List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
+
+					suitableForValues.add(men);
+					suitableForValues.add(women);
+					suitableForValues.add(babies);
+					suitableForValues.add(transGender);
+					suitableForValues.add(handicapped);
+
+					StringBuilder values = new StringBuilder();
+					for (CheckBox suitableForValue : suitableForValues) {
+						if(suitableForValue.isChecked())
+							values.append(suitableForValue.getText()).append("\n");
+					}
+
+					String[] suitableCategories = values.toString().split("\n");
+
+					double[] location = {coordinates[0], coordinates[1]};
+					newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
+					new AddResponseHandler(callback(), newLoo).execute();
+				}
+			}
+		});
+	}
+
+	private boolean isDataValid(){
+		return !name.getText().toString().trim().equals("") &&
+				operational.isChecked() &&
+				free.isChecked() &&
+				!kind.getSelectedItem().toString().equals("") &&
+				men.isChecked() || women.isChecked() ||babies.isChecked() || transGender.isChecked() ||handicapped.isChecked();
+	}
 
 	private AddCallback<Boolean> callback(){
 		return new AddCallback<Boolean>() {
@@ -109,16 +122,4 @@ public class AddLooActivity extends Activity{
 			}
 		};
 	}
-
-    public ArrayList<CharSequence> getSelectedCategories() {
-        return selectedCategories;
-    }
-
-    public Button getSuitableForButton() {
-        return suitableFor;
-    }
-
-    public CharSequence[] getAllSuitableOptions() {
-        return suitableOptions;
-    }
 }

@@ -8,7 +8,7 @@
     <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="4"
-            android:rowCount="20" android:columnOrderPreserved="true" android:padding="0.5dp"
+            android:rowCount="30" android:columnOrderPreserved="true" android:padding="0.5dp"
             android:layout_margin="5dp">
 
         <TextView
@@ -22,7 +22,7 @@
                 android:layout_height="50dp"
                 android:text=""
                 android:textSize="25dp"
-                android:id="@+id/addName" android:layout_column="2"  android:layout_row="0"/>
+                android:id="@+id/addName" android:layout_column="1"  android:layout_row="0"/>
         <TextView
                 android:layout_width="150dp"
                 android:layout_height="50dp"
@@ -36,7 +36,7 @@
                 android:isIndicator="false"
                 android:id="@+id/ratingBar" android:layout_gravity="center_horizontal" android:layout_weight="0.09"
                 android:numStars="5" android:rating="5" android:indeterminateOnly="false"
-                android:layout_column="2"  android:layout_row="4" android:layout_columnSpan="2"/>
+                android:layout_column="1"  android:layout_row="4" android:layout_columnSpan="2"/>
 
         <TextView
                 android:layout_width="150dp"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="Yes"
                 android:orientation="horizontal"
-                android:id="@+id/isOperational" android:layout_row="9" android:layout_column="2">
+                android:id="@+id/isOperational" android:layout_row="9" android:layout_column="1">
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="Yes"
                 android:orientation="horizontal"
-                android:id="@+id/isFree" android:layout_row="13" android:layout_column="2">
+                android:id="@+id/isFree" android:layout_row="13" android:layout_column="1">
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
                 android:entries="@array/kind"
-                android:layout_column="2" android:layout_row="15" />
+                android:layout_column="1" android:layout_row="15" />
 
         <TextView
                 android:layout_width="150dp"
@@ -107,16 +107,47 @@
                 android:textSize="25dp"
                 android:id="@+id/suitable"  android:layout_column="0" android:layout_row="17"/>
 
-        <Button android:layout_height="wrap_content"
-                android:layout_width="wrap_content" android:text="None selected !"
-                android:id="@+id/suitableTo" android:padding="5dip"
-                android:layout_column="2" android:layout_row="17"/>
+        <CheckBox
+            android:id="@+id/men"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" android:layout_row="17"
+            android:text="Men" />
+
+        <CheckBox
+            android:id="@+id/women"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Women"
+            android:layout_column="1" android:layout_row="18" />
+
+        <CheckBox
+            android:id="@+id/babies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" android:layout_row="19"
+            android:text="Babies" />
+
+        <CheckBox
+            android:id="@+id/transgender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" android:layout_row="20"
+            android:text="TransGender" />
+
+        <CheckBox
+            android:id="@+id/handicapped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" android:layout_row="21"
+            android:text="Handicapped" />
+
         <Button
-                android:id="@+id/submit"
-                android:text="Add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2" android:layout_row="19"/>
+            android:id="@+id/submit"
+            android:text="Add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" android:layout_row="24"/>
     </GridLayout>
 
 </ScrollView>

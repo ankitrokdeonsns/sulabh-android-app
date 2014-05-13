@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.example.R;
-import com.thoughtworks.sulabh.model.Loo;
-import com.thoughtworks.sulabh.helper.LooDetailsPopup;
-import com.thoughtworks.sulabh.helper.UpdateCallback;
 import com.thoughtworks.sulabh.handler.UpdateResponseHandler;
+import com.thoughtworks.sulabh.helper.UpdateCallback;
+import com.thoughtworks.sulabh.model.Loo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UpdateLooActivity extends Activity{
 	private Loo loo;
@@ -23,15 +24,15 @@ public class UpdateLooActivity extends Activity{
 	private RadioButton operational;
 	private RadioButton free;
 	private Spinner kind;
-	private Button suitableFor;
 	private Loo newLoo;
-    private LooDetailsPopup looDetailsPopup = new LooDetailsPopup(this);
-    private CharSequence[] suitableOptions = { "Men", "Women", "Babies", "TransGender", "Handicapped"};
-    protected ArrayList<CharSequence> selectedCategories = new ArrayList<CharSequence>();
-    private String name;
-    private String selectedLooSuitableFor;
+	private String name;
+	private CheckBox men;
+	private CheckBox women;
+	private CheckBox babies;
+	private CheckBox transGender;
+	private CheckBox handicapped;
 
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_loo);
@@ -58,25 +59,39 @@ public class UpdateLooActivity extends Activity{
 		else
 			freeStatus.findViewById(R.id.freeNo).performClick();
 
-        kind = (Spinner) findViewById(R.id.type);
-        String previousKind = loo.getType();
-        if(previousKind.equals("Indian"))
-            kind.setSelection(0);
-        else
-            kind.setSelection(1);
+		kind = (Spinner) findViewById(R.id.type);
+		String previousKind = loo.getType();
+		if(previousKind.equals("Indian"))
+			kind.setSelection(0);
+		else
+			kind.setSelection(1);
 
-		suitableFor = (Button) findViewById(R.id.suitableTo);
-        selectedLooSuitableFor = loo.getSuitableFor();
-        suitableFor.setText(selectedLooSuitableFor);
+		String suitableFor = loo.getSuitableFor();
 
-        suitableFor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                looDetailsPopup.showSelectCategoriesDialog();
-            }
-        });
+		final List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
 
-	    Button submit = (Button) findViewById(R.id.submit);
+		men = (CheckBox) findViewById(R.id.men);
+		women = (CheckBox) findViewById(R.id.women);
+		babies = (CheckBox) findViewById(R.id.babies);
+		transGender = (CheckBox) findViewById(R.id.transgender);
+		handicapped = (CheckBox) findViewById(R.id.handicapped);
+
+		suitableForValues.add(men);
+		suitableForValues.add(women);
+		suitableForValues.add(babies);
+		suitableForValues.add(transGender);
+
+		suitableForValues.add(handicapped);
+		String[] prevOptions = suitableFor.split("\n");
+
+		List<String> options = Arrays.asList(prevOptions);
+
+		for (CheckBox suitableForValue : suitableForValues) {
+			if(options.contains(suitableForValue.getText()))
+				suitableForValue.performClick();
+		}
+
+		Button submit = (Button) findViewById(R.id.submit);
 		submit.setText("Update");
 		submit.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -98,8 +113,15 @@ public class UpdateLooActivity extends Activity{
 					if (free.getText().equals("No")) isFreeChecked = false;
 
 					String kind = UpdateLooActivity.this.kind.getSelectedItem().toString();
-					String suitableFor = UpdateLooActivity.this.suitableFor.getText().toString();
-					String[] suitableCategories = suitableFor.split(",");
+
+					StringBuilder values = new StringBuilder();
+					for (CheckBox suitableForValue : suitableForValues) {
+						if(suitableForValue.isChecked())
+							values.append(suitableForValue.getText()).append("\n");
+					}
+
+					String[] suitableCategories = values.toString().split("\n");
+
 					double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
 					newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
 					new UpdateResponseHandler(callback(), newLoo).execute();
@@ -108,17 +130,15 @@ public class UpdateLooActivity extends Activity{
 		});
 	}
 
-    private boolean isDataValid(){
-        if(!placeName.getText().toString().trim().equals("") &&
-                operational.isChecked() &&
-                free.isChecked() &&
-                !kind.getSelectedItem().toString().equals("") &&
-                !suitableFor.getText().toString().equals("None selected !"))
-            return true;
-        return false;
-    }
+	private boolean isDataValid(){
+		return !placeName.getText().toString().trim().equals("") &&
+				operational.isChecked() &&
+				free.isChecked() &&
+				!kind.getSelectedItem().toString().equals("") &&
+				men.isChecked() || women.isChecked() ||babies.isChecked() || transGender.isChecked() ||handicapped.isChecked();
+	}
 
-    private void setStatus(RadioGroup operationalStatus) {
+	private void setStatus(RadioGroup operationalStatus) {
 		if (loo.getOperational())
 			operationalStatus.findViewById(R.id.operationalYes).performClick();
 		else
@@ -140,20 +160,4 @@ public class UpdateLooActivity extends Activity{
 			}
 		};
 	}
-
-	public CharSequence[] getAllSuitableOptions() {
-        return suitableOptions;
-    }
-
-    public ArrayList<CharSequence> getSelectedCategories() {
-        return selectedCategories;
-    }
-
-    public Button getSuitableForButton() {
-        return suitableFor;
-    }
-
-    public String getSelectedLooSuitableFor() {
-        return selectedLooSuitableFor;
-    }
 }
