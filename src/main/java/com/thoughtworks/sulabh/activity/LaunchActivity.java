@@ -48,9 +48,9 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         new MapDisplayHandler(map, this).displayMap();
 
-		new ImageMapper(this).mapImages();
 
-	    map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
@@ -110,6 +110,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
                         selectedLoo = loo;
                     }
                 }
+                new ImageMapper(LaunchActivity.this).mapImages();
                 marker.showInfoWindow();
                 return true;
             }
