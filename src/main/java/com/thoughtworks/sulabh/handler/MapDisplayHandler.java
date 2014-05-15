@@ -13,7 +13,6 @@ import com.thoughtworks.sulabh.helper.Callback;
 import com.thoughtworks.sulabh.model.Loo;
 import com.thoughtworks.sulabh.activity.LaunchActivity;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
 

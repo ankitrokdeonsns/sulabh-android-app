@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.widget.Toast;
 import com.example.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -97,7 +98,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         alertMessageBuilder("Do you want to add a toilet?", intent, 1);
     }
 
-    public void populateMarkers(GoogleMap map, final List<Loo> loos) {
+    public void populateMarkers(final GoogleMap map, final List<Loo> loos) {
         for (final Loo loo : loos) {
             LatLng markerPosition = new LatLng(loo.getCoordinates()[0], loo.getCoordinates()[1]);
             map.addMarker(new MarkerOptions().position(markerPosition));
@@ -105,6 +106,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
                 for (Loo loo : loos) {
                     if(loo.isSamePositionAs(marker.getPosition())){
                         selectedLoo = loo;
