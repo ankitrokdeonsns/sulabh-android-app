@@ -17,55 +17,55 @@ import java.io.IOException;
 import java.util.List;
 
 public class MapDisplayHandler {
-	private GoogleMap map;
-	private final LaunchActivity launchActivity;
-	private ProgressDialog progressDialog;
+    private GoogleMap map;
+    private final LaunchActivity launchActivity;
+    private ProgressDialog progressDialog;
 
-	public MapDisplayHandler(GoogleMap map, LaunchActivity launchActivity){
-		this.map = map;
-		this.launchActivity = launchActivity;
-	}
+    public MapDisplayHandler(GoogleMap map, LaunchActivity launchActivity){
+        this.map = map;
+        this.launchActivity = launchActivity;
+    }
 
-	public void displayMap() {
-		if (map == null)
-			Toast.makeText(launchActivity, "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
-		else {
-			progressDialog = new ProgressDialog(launchActivity);
-			progressDialog.setCancelable(true);
-			progressDialog.setMessage("Loading...");
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setProgress(0);
-			progressDialog.show();
-		}
-		launchActivity.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 10, locationListener);
-		launchActivity.getMap().setMyLocationEnabled(true);
-		launchActivity.getMap().setOnMapLongClickListener(this.launchActivity);
-	}
+    public void displayMap() {
+        if (map == null)
+            Toast.makeText(launchActivity, "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+        else {
+            progressDialog = new ProgressDialog(launchActivity);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+        launchActivity.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 10, locationListener);
+        launchActivity.getMap().setMyLocationEnabled(true);
+        launchActivity.getMap().setOnMapLongClickListener(this.launchActivity);
+    }
 
-	LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-			double latitude = location.getLatitude();
-			double longitude = location.getLongitude();
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-			map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-			LatLng myPosition = new LatLng(latitude, longitude);
-			new ResponseHandler(callback(), myPosition).execute();
-		}
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+            map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+            LatLng myPosition = new LatLng(latitude, longitude);
+            new ResponseHandler(callback(), myPosition).execute();
+        }
 
-		public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
 
-		public void onProviderEnabled(String provider) {}
+        public void onProviderEnabled(String provider) {}
 
-		public void onProviderDisabled(String provider) {}
-	};
+        public void onProviderDisabled(String provider) {}
+    };
 
-	private Callback<JSONObject> callback(){
-		return new Callback<JSONObject>() {
-			@Override
-			public void execute(List<Loo> loos) throws IOException {
-				launchActivity.populateMarkers(map, loos);
-				progressDialog.dismiss();
-			}
-		};
-	}
+    private Callback<JSONObject> callback(){
+        return new Callback<JSONObject>() {
+            @Override
+            public void execute(List<Loo> loos) throws IOException {
+                launchActivity.populateMarkers(map, loos);
+                progressDialog.dismiss();
+            }
+        };
+    }
 }

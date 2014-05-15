@@ -5,10 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.example.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.thoughtworks.sulabh.handler.ResponseHandler;
 import com.thoughtworks.sulabh.model.Loo;
 import com.thoughtworks.sulabh.handler.MapDisplayHandler;
 import com.thoughtworks.sulabh.helper.ImageMapper;
@@ -118,7 +124,22 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
             }
         });
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
+        String provider = locationManager.getBestProvider(new Criteria(), true);
+        Location myPosition = locationManager.getLastKnownLocation(provider);
+        intent.putExtra("coordinates", new double[]{myPosition.getLatitude(), myPosition.getLongitude()});
+//        startActivity(intent);
+        alertMessageBuilder("Do you want to add a toilet on current position?", intent, 1);
+        return true;
+    }
     public LocationManager getLocationManager() {
         return locationManager;
     }
