@@ -151,7 +151,6 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         String provider = locationManager.getBestProvider(new Criteria(), true);
         Location myPosition = locationManager.getLastKnownLocation(provider);
         intent.putExtra("coordinates", new double[]{myPosition.getLatitude(), myPosition.getLongitude()});
-//        startActivity(intent);
         alertMessageBuilderForAddLoo(intent);
         return true;
     }

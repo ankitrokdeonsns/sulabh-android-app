@@ -30,7 +30,7 @@ public class SulabhGateway {
 
 	public List<Loo> getLoos(double latitude, double longitude, int radius) {
 		try {
-			String url = "http://10.12.124.60:3000/locations?latitude=" + latitude + "&longitude=" + longitude;
+			String url = "http://router.shwetado.nodejitsu.com/locations?latitude=" + latitude + "&longitude=" + longitude;
 			System.out.println("url = " + url);
 			HttpResponse response = httpclient.execute(new HttpGet(url));
 			StatusLine statusLine = response.getStatusLine();
@@ -39,7 +39,8 @@ public class SulabhGateway {
 				response.getEntity().writeTo(out);
 				String responseString = out.toString();
 				ObjectMapper mapper = new ObjectMapper();
-				loos = mapper.readValue(String.valueOf(responseString), LooList.class);
+                System.out.println("*************** " + responseString);
+                loos = mapper.readValue(String.valueOf(responseString), LooList.class);
 				out.close();
 			} else{
 				//Closes the connection.
@@ -80,17 +81,17 @@ public class SulabhGateway {
 	}
 
 	public boolean addLoo(Loo loo) {
-		String url = "http://10.12.124.60:3000/add";
+		String url = "http://router.shwetado.nodejitsu.com/add";
 		return getResponse(loo, url);
 	}
 
 	public boolean updateLoo(Loo loo) {
-        String url = "http://10.12.124.60:3000/update";
+        String url = "http://router.shwetado.nodejitsu.com/update";
 		return getResponse(loo, url);
 	}
 
 	public boolean rate(Loo loo) {
-		String url = "http://10.12.124.60:3000/rate";
+		String url = "http://router.shwetado.nodejitsu.com/rate";
 		return getResponse(loo, url);
 	}
 
