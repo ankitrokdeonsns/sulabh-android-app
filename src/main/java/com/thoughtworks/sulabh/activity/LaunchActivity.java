@@ -22,10 +22,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.thoughtworks.sulabh.handler.ResponseHandler;
-import com.thoughtworks.sulabh.model.Loo;
 import com.thoughtworks.sulabh.handler.MapDisplayHandler;
 import com.thoughtworks.sulabh.helper.ImageMapper;
+import com.thoughtworks.sulabh.model.Loo;
 
 import java.util.List;
 
@@ -97,6 +96,22 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         alert.show();
     }
 
+    public void alertMessageBuilderForAddLoo(final Intent yesAction) {
+        String currentPositionMessage = "On current location";
+        String differentPositionMessage = "different location\nHINT : long tap on map";
+        String items[] = {currentPositionMessage, String.valueOf(differentPositionMessage)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add a loo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int choice) {
+                if (choice == 0)
+                    startActivity(yesAction);
+            }
+        });
+        builder.show();
+    }
+
     @Override
     public void onMapLongClick(LatLng latLng) {
         Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
@@ -114,7 +129,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
             public boolean onMarkerClick(Marker marker) {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
                 for (Loo loo : loos) {
-                    if(loo.isSamePositionAs(marker.getPosition())){
+                    if (loo.isSamePositionAs(marker.getPosition())) {
                         selectedLoo = loo;
                     }
                 }
@@ -137,7 +152,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
         Location myPosition = locationManager.getLastKnownLocation(provider);
         intent.putExtra("coordinates", new double[]{myPosition.getLatitude(), myPosition.getLongitude()});
 //        startActivity(intent);
-        alertMessageBuilder("Do you want to add a toilet on current position?", intent, 1);
+        alertMessageBuilderForAddLoo(intent);
         return true;
     }
     public LocationManager getLocationManager() {
