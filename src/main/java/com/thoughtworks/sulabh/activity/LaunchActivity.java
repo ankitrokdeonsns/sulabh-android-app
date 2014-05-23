@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.example.R;
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -30,7 +32,7 @@ import java.util.List;
 
 import static com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 
-public class LaunchActivity extends Activity implements OnMapLongClickListener{
+public class LaunchActivity extends Activity implements OnMapLongClickListener {
 
     private LocationManager locationManager;
     private GoogleMap map;
@@ -98,7 +100,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 
     public void alertMessageBuilderForAddLoo(final Intent yesAction) {
         String currentPositionMessage = "On current location";
-        String differentPositionMessage = "different location\nHINT : long tap on map";
+        String differentPositionMessage = "Long tap on map for other location";
         String items[] = {currentPositionMessage, String.valueOf(differentPositionMessage)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a loo");
@@ -107,6 +109,8 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
             public void onClick(DialogInterface dialog, int choice) {
                 if (choice == 0)
                     startActivity(yesAction);
+                else
+                    Toast.makeText(getApplicationContext(),"Note : Long tap on map to add loo",Toast.LENGTH_LONG).show();
             }
         });
         builder.show();
@@ -147,13 +151,10 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
-        String provider = locationManager.getBestProvider(new Criteria(), true);
-        Location myPosition = locationManager.getLastKnownLocation(provider);
-        intent.putExtra("coordinates", new double[]{myPosition.getLatitude(), myPosition.getLongitude()});
-        alertMessageBuilderForAddLoo(intent);
+        this.getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 10, locationListener);
         return true;
     }
+
     public LocationManager getLocationManager() {
         return locationManager;
     }
@@ -165,4 +166,25 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener{
 	public Loo getSelectedLoo() {
 		return selectedLoo;
 	}
+
+    LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+            map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+            LatLng myPosition = new LatLng(latitude, longitude);
+            Intent intent = new Intent(LaunchActivity.this, AddLooActivity.class);
+            intent.putExtra("coordinates", new double[]{myPosition.latitude, myPosition.longitude});
+            alertMessageBuilderForAddLoo(intent);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        @Override
+        public void onProviderEnabled(String provider) {}
+        @Override
+        public void onProviderDisabled(String provider) {}
+    };
 }
