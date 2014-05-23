@@ -9,3 +9,5 @@ build
 local.properties
 *.ipr
 *.iws
+*.jks
+*.apk

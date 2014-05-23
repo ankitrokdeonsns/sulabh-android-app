@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,13 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.example.R;
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.thoughtworks.sulabh.handler.InternetConnectionHandler;
 import com.thoughtworks.sulabh.handler.MapDisplayHandler;
 import com.thoughtworks.sulabh.helper.ImageMapper;
 import com.thoughtworks.sulabh.model.Loo;
@@ -53,20 +52,43 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener {
         StrictMode.setThreadPolicy(policy);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        new MapDisplayHandler(map, this).displayMap();
+        new InternetConnectionHandler(this.getApplicationContext()) {
 
-
-
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
-                intent.putExtra("Loo", selectedLoo);
-                startActivity(intent);
+            public void executeIfConnectedToInternet() {
+                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+                new MapDisplayHandler(map, LaunchActivity.this).displayMap();
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(LaunchActivity.this, DetailsActivity.class);
+                        intent.putExtra("Loo", selectedLoo);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void executeIfNotConnectedToInternet() {
+                showExitAlert();
+            }
+
+        }.checkForConnectivity();
+    }
+
+    private void showExitAlert() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Network unavailable...");
+        alertDialog.setMessage("Network seems to be unavailable!");
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+                LaunchActivity.this.finish();
             }
         });
+        alertDialog.show();
     }
+
 
     @Override
     protected void onResume() {
@@ -88,11 +110,11 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener {
 	                }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
-	                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-		                dialog.cancel();
-		                if (status == 0)
-			                System.exit(0);
-	                }
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                        if (status == 0)
+                            System.exit(0);
+                    }
                 });
         final AlertDialog alert = builder.create();
         alert.show();
