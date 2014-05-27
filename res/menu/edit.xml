@@ -3,7 +3,7 @@
     <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/rate_us"
-          android:title="rate it"
+          android:title="Rate It"
           android:showAsAction="always"/>
     <item android:id="@+id/edit"
               android:icon="@drawable/edit"

@@ -7,13 +7,14 @@
               android:layout_height="match_parent" android:weightSum="1">
 
 
-    <EditText
+    <TextView
             android:layout_width="174dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:id="@+id/placeName" android:text="You are here" android:capitalize="sentences"
-            android:background="#000000" android:autoText="false" android:focusable="false"
+            android:autoText="false" android:focusable="false"
             android:visibility="visible" android:textAlignment="center" android:layout_weight="0.09"
-            android:layout_gravity="center_horizontal" android:textSize="30dp" android:textColor="#ffffff"/>
+            android:layout_gravity="center_horizontal" android:textSize="30dp"/>
 
     <RatingBar
             android:layout_width="wrap_content"
@@ -29,6 +30,7 @@
                 android:layout_width="363dp"
                 android:layout_height="wrap_content"
                 android:text="Operational"
+                android:textStyle="bold"
                 android:textSize="25dp" android:layout_weight="0.05" android:layout_margin="5dp"/>
         <TextView
                 android:layout_width="363dp"
@@ -44,6 +46,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="Free"
                 android:layout_weight="0.05" android:textSize="25dp"
                 android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
@@ -62,6 +65,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="Kind"
                 android:layout_weight="0.05" android:textSize="25dp"
                 android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
@@ -80,7 +84,8 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Suitable For"
+                android:textStyle="bold"
+                android:text="For"
                 android:layout_weight="0.05" android:textSize="25dp"
                 android:layout_margin="5dp"/>
 
@@ -88,8 +93,9 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/suitableTo"
                 android:layout_margin="5dp"
+                android:layout_gravity="left"
                 android:layout_height="wrap_content" android:orientation="vertical" android:columnCount="5"
-                android:rowCount="1" android:columnOrderPreserved="true" android:padding="0.5dp">
+                android:rowCount="1" android:padding="0.5dp">
 
             <ImageView
                     android:id="@+id/menIcon"
