@@ -12,37 +12,38 @@
             android:layout_margin="5dp">
 
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Name"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/name" android:layout_column="0"  android:layout_row="0"/>
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:text=""
-                android:textSize="25dp"
+                android:textSize="20dp"
+                android:maxLength="20"
                 android:id="@+id/addName" android:layout_column="1"  android:layout_row="0"/>
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Rating"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/rating" android:layout_column="0"  android:layout_row="4"/>
         <RatingBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@android:style/Widget.Holo.Light.RatingBar.Indicator"
                 android:isIndicator="false"
-                android:id="@+id/ratingBar" android:layout_gravity="center_horizontal" android:layout_weight="0.09"
+                android:id="@+id/ratingBar"
                 android:numStars="5" android:rating="5" android:indeterminateOnly="false"
-                android:layout_column="1"  android:layout_row="4" android:layout_columnSpan="2"/>
+                android:layout_column="1" android:layout_row="4"/>
 
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Operational"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/operational" android:layout_column="0"  android:layout_row="9"/>
         <RadioGroup
                 android:layout_width="146dp"
@@ -63,10 +64,10 @@
         </RadioGroup>
 
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Free"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/free"  android:layout_column="0" android:layout_row="13"
                 android:layout_columnSpan="2"/>
         <RadioGroup
@@ -88,10 +89,10 @@
         </RadioGroup>
 
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Kind"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/kind" android:layout_column="0" android:layout_row="15"/>
         <Spinner
                 android:id="@+id/type"
@@ -101,10 +102,10 @@
                 android:layout_column="1" android:layout_row="15" />
 
         <TextView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:text="Suitable For"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:id="@+id/suitable"  android:layout_column="0" android:layout_row="17"/>
 
         <CheckBox

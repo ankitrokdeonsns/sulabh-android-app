@@ -39,7 +39,6 @@ public class SulabhGateway {
 				response.getEntity().writeTo(out);
 				String responseString = out.toString();
 				ObjectMapper mapper = new ObjectMapper();
-                System.out.println("*************** " + responseString);
                 loos = mapper.readValue(String.valueOf(responseString), LooList.class);
 				out.close();
 			} else{
