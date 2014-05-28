@@ -3,7 +3,9 @@ package com.thoughtworks.sulabh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.*;
 import com.example.R;
 import com.thoughtworks.sulabh.handler.AddResponseHandler;
@@ -27,76 +29,90 @@ public class AddLooActivity extends Activity{
 	private CheckBox babies;
 	private CheckBox transGender;
 	private CheckBox handicapped;
+    private double[] coordinates;
+    private RadioGroup isOperational;
+    private RadioGroup isFree;
 
-	@Override
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getTitle().equals("Save")){
+            int selectedOperational = isOperational.getCheckedRadioButtonId();
+            operational = (RadioButton) isOperational.findViewById(selectedOperational);
+            int selectedFree = isFree.getCheckedRadioButtonId();
+            free = (RadioButton) isFree.findViewById(selectedFree);
+
+            men = (CheckBox) findViewById(R.id.men);
+            women = (CheckBox) findViewById(R.id.women);
+            babies = (CheckBox) findViewById(R.id.babies);
+            transGender = (CheckBox) findViewById(R.id.transgender);
+            handicapped = (CheckBox) findViewById(R.id.handicapped);
+
+            if (!isDataValid()) {
+                System.out.println("********************************* is data valid");
+                Toast.makeText(getApplicationContext(), "All fields are mandatory!", Toast.LENGTH_LONG).show();
+            }
+            else {
+                String name = String.valueOf(AddLooActivity.this.name.getText());
+                float rating = ratingBar.getRating();
+                boolean isOperationalChecked = true;
+                boolean isFreeChecked = true;
+
+                if(operational.getText().equals("No")) isOperationalChecked = false;
+                if(free.getText().equals("No")) isFreeChecked = false;
+
+                String kind = AddLooActivity.this.kind.getSelectedItem().toString();
+
+                List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
+
+                suitableForValues.add(men);
+                suitableForValues.add(women);
+                suitableForValues.add(babies);
+                suitableForValues.add(transGender);
+                suitableForValues.add(handicapped);
+
+                StringBuilder values = new StringBuilder();
+                for (CheckBox suitableForValue : suitableForValues) {
+                    if(suitableForValue.isChecked())
+                        values.append(suitableForValue.getText()).append("\n");
+                }
+
+                String[] suitableCategories = values.toString().split("\n");
+
+                double[] location = {coordinates[0], coordinates[1]};
+                newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
+                new AddResponseHandler(callback(), newLoo).execute();
+            }
+            return true;
+        }
+        finish();
+        return true;
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_loo);
 
 		final Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
-		final double[] coordinates = extras.getDoubleArray("coordinates");
+        coordinates = extras.getDoubleArray("coordinates");
 		name = (EditText) findViewById(R.id.addName);
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
-		final RadioGroup isOperational = (RadioGroup) findViewById(R.id.isOperational);
-		final RadioGroup isFree = (RadioGroup) findViewById(R.id.isFree);
+        isOperational = (RadioGroup) findViewById(R.id.isOperational);
+        isFree = (RadioGroup) findViewById(R.id.isFree);
 
 		isOperational.check(R.id.operationalYes);
 		isFree.check(R.id.freeYes);
 
 		kind = (Spinner) findViewById(R.id.type);
-
-		Button submit = (Button) findViewById(R.id.submit);
-		submit.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int selectedOperational = isOperational.getCheckedRadioButtonId();
-				operational = (RadioButton) isOperational.findViewById(selectedOperational);
-				int selectedFree = isFree.getCheckedRadioButtonId();
-				free = (RadioButton) isFree.findViewById(selectedFree);
-
-				men = (CheckBox) findViewById(R.id.men);
-				women = (CheckBox) findViewById(R.id.women);
-				babies = (CheckBox) findViewById(R.id.babies);
-				transGender = (CheckBox) findViewById(R.id.transgender);
-				handicapped = (CheckBox) findViewById(R.id.handicapped);
-
-				if (!isDataValid())
-					Toast.makeText(getApplicationContext(),"All fields are mandatory!",Toast.LENGTH_LONG).show();
-				else {
-					String name = String.valueOf(AddLooActivity.this.name.getText());
-					float rating = ratingBar.getRating();
-					boolean isOperationalChecked = true;
-					boolean isFreeChecked = true;
-
-					if(operational.getText().equals("No")) isOperationalChecked = false;
-					if(free.getText().equals("No")) isFreeChecked = false;
-
-					String kind = AddLooActivity.this.kind.getSelectedItem().toString();
-
-					List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
-
-					suitableForValues.add(men);
-					suitableForValues.add(women);
-					suitableForValues.add(babies);
-					suitableForValues.add(transGender);
-					suitableForValues.add(handicapped);
-
-					StringBuilder values = new StringBuilder();
-					for (CheckBox suitableForValue : suitableForValues) {
-						if(suitableForValue.isChecked())
-							values.append(suitableForValue.getText()).append("\n");
-					}
-
-					String[] suitableCategories = values.toString().split("\n");
-
-					double[] location = {coordinates[0], coordinates[1]};
-					newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
-					new AddResponseHandler(callback(), newLoo).execute();
-				}
-			}
-		});
 	}
 
 	private boolean isDataValid(){
