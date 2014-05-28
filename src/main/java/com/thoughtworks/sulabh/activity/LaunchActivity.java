@@ -37,7 +37,7 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener {
     private GoogleMap map;
     private Loo selectedLoo;
 
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -105,9 +105,9 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener {
         builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	                public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-		                startActivity(yesAction);
-	                }
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(yesAction);
+                    }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
@@ -185,9 +185,9 @@ public class LaunchActivity extends Activity implements OnMapLongClickListener {
         return map;
     }
 
-	public Loo getSelectedLoo() {
-		return selectedLoo;
-	}
+    public Loo getSelectedLoo() {
+        return selectedLoo;
+    }
 
     LocationListener locationListener = new LocationListener() {
         @Override

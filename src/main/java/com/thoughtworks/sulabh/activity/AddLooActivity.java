@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.*;
 import com.example.R;
 import com.thoughtworks.sulabh.handler.AddResponseHandler;
 import com.thoughtworks.sulabh.helper.AddCallback;
+import com.thoughtworks.sulabh.helper.KeyboardHelper;
 import com.thoughtworks.sulabh.model.Loo;
 
 import java.io.IOException;
@@ -34,9 +37,29 @@ public class AddLooActivity extends Activity{
     private RadioGroup isFree;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_loo);
+
+        final Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        coordinates = extras.getDoubleArray("coordinates");
+        name = (EditText) findViewById(R.id.addName);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+
+        isOperational = (RadioGroup) findViewById(R.id.isOperational);
+        isFree = (RadioGroup) findViewById(R.id.isFree);
+
+        isOperational.check(R.id.operationalYes);
+        isFree.check(R.id.freeYes);
+
+        kind = (Spinner) findViewById(R.id.type);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save,menu);
+        inflater.inflate(R.menu.save, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -55,7 +78,6 @@ public class AddLooActivity extends Activity{
             handicapped = (CheckBox) findViewById(R.id.handicapped);
 
             if (!isDataValid()) {
-                System.out.println("********************************* is data valid");
                 Toast.makeText(getApplicationContext(), "All fields are mandatory!", Toast.LENGTH_LONG).show();
             }
             else {
@@ -95,47 +117,33 @@ public class AddLooActivity extends Activity{
         return true;
     }
 
+
+    private boolean isDataValid(){
+        return !name.getText().toString().trim().equals("") &&
+                (men.isChecked() || women.isChecked() ||babies.isChecked() || transGender.isChecked() ||handicapped.isChecked());
+    }
+
+    private AddCallback<Boolean> callback(){
+        return new AddCallback<Boolean>() {
+            @Override
+            public void execute(Boolean isAdded) throws IOException {
+                if (isAdded) {
+                    Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
+                    intent.putExtra("toastMessage", "Added Successfully");
+                    intent.putExtra("isPressed", true);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+    }
+
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_loo);
-
-		final Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-        coordinates = extras.getDoubleArray("coordinates");
-		name = (EditText) findViewById(R.id.addName);
-		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
-        isOperational = (RadioGroup) findViewById(R.id.isOperational);
-        isFree = (RadioGroup) findViewById(R.id.isFree);
-
-		isOperational.check(R.id.operationalYes);
-		isFree.check(R.id.freeYes);
-
-		kind = (Spinner) findViewById(R.id.type);
-	}
-
-	private boolean isDataValid(){
-		return !name.getText().toString().trim().equals("") &&
-				operational.isChecked() &&
-				free.isChecked() &&
-				!kind.getSelectedItem().toString().equals("") &&
-				men.isChecked() || women.isChecked() ||babies.isChecked() || transGender.isChecked() ||handicapped.isChecked();
-	}
-
-	private AddCallback<Boolean> callback(){
-		return new AddCallback<Boolean>() {
-			@Override
-			public void execute(Boolean isAdded) throws IOException {
-				if (isAdded) {
-					Intent intent = new Intent(AddLooActivity.this, LaunchActivity.class);
-					intent.putExtra("toastMessage", "Added Successfully");
-					intent.putExtra("isPressed", true);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-					startActivity(intent);
-					finish();
-				}
-			}
-		};
-	}
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View view = getCurrentFocus();
+        boolean result = super.dispatchTouchEvent(event);
+        new KeyboardHelper().dismissKeyboard(view,event,this);
+        return result;
+    }
 }

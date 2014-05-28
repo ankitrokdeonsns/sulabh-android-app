@@ -3,14 +3,11 @@ package com.thoughtworks.sulabh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.example.R;
-import com.thoughtworks.sulabh.handler.AddResponseHandler;
 import com.thoughtworks.sulabh.handler.UpdateResponseHandler;
+import com.thoughtworks.sulabh.helper.KeyboardHelper;
 import com.thoughtworks.sulabh.helper.UpdateCallback;
 import com.thoughtworks.sulabh.model.Loo;
 
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UpdateLooActivity extends Activity{
+public class UpdateLooActivity extends Activity {
     private Loo loo;
     private TextView placeName;
     private RatingBar ratingBar;
@@ -59,6 +56,7 @@ public class UpdateLooActivity extends Activity{
         setStatus(operationalStatus);
 
         freeStatus = (RadioGroup) findViewById(R.id.isFree);
+
         if(loo.getFree())
             freeStatus.findViewById(R.id.freeYes).performClick();
         else
@@ -66,7 +64,8 @@ public class UpdateLooActivity extends Activity{
 
         kind = (Spinner) findViewById(R.id.type);
         String previousKind = loo.getType();
-        if(previousKind.equals("Indian"))
+
+        if (previousKind.equals("Indian"))
             kind.setSelection(0);
         else
             kind.setSelection(1);
@@ -134,23 +133,16 @@ public class UpdateLooActivity extends Activity{
                 double[] location = {loo.getCoordinates()[0], loo.getCoordinates()[1]};
                 newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
                 new UpdateResponseHandler(callback(), newLoo).execute();
-
             }
             return true;
         }
-        Intent gotoDetailsActivity = new Intent(UpdateLooActivity.this,DetailsActivity.class);
-        gotoDetailsActivity.putExtra("Loo",this.loo);
-        startActivity(gotoDetailsActivity);
         finish();
         return true;
     }
 
-    private boolean isDataValid(){
+    private boolean isDataValid() {
         return !placeName.getText().toString().trim().equals("") &&
-                operational.isChecked() &&
-                free.isChecked() &&
-                !kind.getSelectedItem().toString().equals("") &&
-                men.isChecked() || women.isChecked() ||babies.isChecked() || transGender.isChecked() ||handicapped.isChecked();
+                (men.isChecked() || women.isChecked() || babies.isChecked() || transGender.isChecked() || handicapped.isChecked());
     }
 
     private void setStatus(RadioGroup operationalStatus) {
@@ -160,7 +152,7 @@ public class UpdateLooActivity extends Activity{
             operationalStatus.findViewById(R.id.operationalNo).performClick();
     }
 
-    private UpdateCallback<Boolean> callback(){
+    private UpdateCallback<Boolean> callback() {
         return new UpdateCallback<Boolean>() {
             @Override
             public void execute(Boolean isUpdated) throws IOException {
@@ -174,5 +166,13 @@ public class UpdateLooActivity extends Activity{
                 }
             }
         };
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View view = getCurrentFocus();
+        boolean result = super.dispatchTouchEvent(event);
+        new KeyboardHelper().dismissKeyboard(view,event,this);
+        return result;
     }
 }
