@@ -3,9 +3,8 @@ package com.thoughtworks.sulabh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -114,4 +113,5 @@ public class DetailsActivity extends Activity{
 			field = "No";
 		return field;
 	}
+
 }
