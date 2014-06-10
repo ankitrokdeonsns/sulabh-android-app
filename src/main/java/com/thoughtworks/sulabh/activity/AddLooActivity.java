@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
-import com.example.R;
+import com.thoughtworks.R;
 import com.thoughtworks.sulabh.handler.AddResponseHandler;
 import com.thoughtworks.sulabh.helper.AddCallback;
 import com.thoughtworks.sulabh.helper.KeyboardHelper;
@@ -81,40 +81,44 @@ public class AddLooActivity extends Activity{
                 Toast.makeText(getApplicationContext(), "All fields are mandatory!", Toast.LENGTH_LONG).show();
             }
             else {
-                String name = String.valueOf(AddLooActivity.this.name.getText());
-                float rating = ratingBar.getRating();
-                boolean isOperationalChecked = true;
-                boolean isFreeChecked = true;
-
-                if(operational.getText().equals("No")) isOperationalChecked = false;
-                if(free.getText().equals("No")) isFreeChecked = false;
-
-                String kind = AddLooActivity.this.kind.getSelectedItem().toString();
-
-                List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
-
-                suitableForValues.add(men);
-                suitableForValues.add(women);
-                suitableForValues.add(babies);
-                suitableForValues.add(transGender);
-                suitableForValues.add(handicapped);
-
-                StringBuilder values = new StringBuilder();
-                for (CheckBox suitableForValue : suitableForValues) {
-                    if(suitableForValue.isChecked())
-                        values.append(suitableForValue.getText()).append("\n");
-                }
-
-                String[] suitableCategories = values.toString().split("\n");
-
-                double[] location = {coordinates[0], coordinates[1]};
-                newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
-                new AddResponseHandler(callback(), newLoo).execute();
+                addLoo();
             }
             return true;
         }
         finish();
         return true;
+    }
+
+    private void addLoo() {
+        String name = String.valueOf(AddLooActivity.this.name.getText());
+        float rating = ratingBar.getRating();
+        boolean isOperationalChecked = true;
+        boolean isFreeChecked = true;
+
+        if(operational.getText().equals("No")) isOperationalChecked = false;
+        if(free.getText().equals("No")) isFreeChecked = false;
+
+        String kind = AddLooActivity.this.kind.getSelectedItem().toString();
+
+        List<CheckBox> suitableForValues = new ArrayList<CheckBox>();
+
+        suitableForValues.add(men);
+        suitableForValues.add(women);
+        suitableForValues.add(babies);
+        suitableForValues.add(transGender);
+        suitableForValues.add(handicapped);
+
+        StringBuilder values = new StringBuilder();
+        for (CheckBox suitableForValue : suitableForValues) {
+            if(suitableForValue.isChecked())
+                values.append(suitableForValue.getText()).append("\n");
+        }
+
+        String[] suitableCategories = values.toString().split("\n");
+
+        double[] location = {coordinates[0], coordinates[1]};
+        newLoo = new Loo(suitableCategories, kind, isFreeChecked, isOperationalChecked, rating, location, name);
+        new AddResponseHandler(callback(), newLoo).execute();
     }
 
 

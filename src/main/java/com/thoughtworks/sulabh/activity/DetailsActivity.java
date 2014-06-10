@@ -3,12 +3,13 @@ package com.thoughtworks.sulabh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.view.inputmethod.InputMethodManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import com.example.R;
+import com.thoughtworks.R;
 import com.thoughtworks.sulabh.model.Loo;
 
 import java.util.ArrayList;

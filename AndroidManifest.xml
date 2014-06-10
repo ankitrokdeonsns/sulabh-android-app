@@ -2,31 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionCode="2"
           android:versionName="1.0.0-SNAPSHOT"
-          package="com.example">
+          package="com.thoughtworks">
 
     <uses-sdk android:minSdkVersion="15"
               android:targetSdkVersion="18"/>
 
     <application android:label="@string/app_name"
             android:icon="@drawable/loo"
+            android:debuggable="false"
             android:theme="@style/AppTheme">
 
-        <activity android:name="com.thoughtworks.sulabh.activity.LaunchActivity" android:screenOrientation="portrait">
+        <activity android:name=".sulabh.activity.LaunchActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.thoughtworks.sulabh.activity.DetailsActivity"
+        <activity android:name=".sulabh.activity.DetailsActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.thoughtworks.sulabh.activity.AddLooActivity"
+        <activity android:name=".sulabh.activity.AddLooActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.thoughtworks.sulabh.activity.UpdateLooActivity"
+        <activity android:name=".sulabh.activity.UpdateLooActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.thoughtworks.sulabh.activity.RatingActivity"
+        <activity android:name=".sulabh.activity.RatingActivity"
                   android:theme="@android:style/Theme.Dialog"
                   android:label="Rate it"/>
 

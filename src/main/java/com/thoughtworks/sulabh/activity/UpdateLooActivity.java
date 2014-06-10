@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import com.example.R;
+import com.thoughtworks.R;
 import com.thoughtworks.sulabh.handler.UpdateResponseHandler;
 import com.thoughtworks.sulabh.helper.KeyboardHelper;
 import com.thoughtworks.sulabh.helper.UpdateCallback;
