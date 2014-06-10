@@ -56,7 +56,6 @@ public class UpdateLooActivity extends Activity {
         setStatus(operationalStatus);
 
         freeStatus = (RadioGroup) findViewById(R.id.isFree);
-
         if(loo.getFree())
             freeStatus.findViewById(R.id.freeYes).performClick();
         else
@@ -64,13 +63,16 @@ public class UpdateLooActivity extends Activity {
 
         kind = (Spinner) findViewById(R.id.type);
         String previousKind = loo.getType();
-
         if (previousKind.equals("Indian"))
             kind.setSelection(0);
         else
             kind.setSelection(1);
 
         String suitableFor = loo.getSuitableFor();
+        showAvailableSuitableOptions(suitableFor);
+    }
+
+    private void showAvailableSuitableOptions(String suitableFor) {
         suitableForValues = new ArrayList<CheckBox>();
 
         men = (CheckBox) findViewById(R.id.men);
